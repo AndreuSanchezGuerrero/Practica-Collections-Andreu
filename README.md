@@ -1,0 +1,1 @@
+Explicació de la práctica.
