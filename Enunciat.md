@@ -3,11 +3,12 @@
 
 ~~L'empresa us indica que l'aplicació, de moment, només ha de permetre gestionar les dades d'uns quants dels seus productes: alimentació, tèxtil i electrònica. Aquests productes tenen unes característiques comuns (preu, nom i codi de barres) i un conjunt de característiques específiques de cada tipus de producte:~~
 
-    Alimentació: data de caducitat.
+  ~~Alimentació: data de caducitat.~~
 
-        El preu d'aquest tipus de producte varia en funció dels dies que falten per caducar, segons la fórmula:
+~~El preu d'aquest tipus de producte varia en funció dels dies que falten per caducar, segons la fórmula:~~
 
-             preu - preu*(1/(dataCaducitat-dataActual+1)) + (preu * 0.1)
+~~preu - preu*(1/(dataCaducitat-dataActual+1)) - (preu * 0.1)~~
+Falta el control de errores por regex
 
     Tèxtil: composició tèxtil (text)
 

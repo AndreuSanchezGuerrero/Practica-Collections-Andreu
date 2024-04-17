@@ -1,3 +1,5 @@
+import java.util.regex.*;
+
 public abstract class Producte {
     private String nom;
     private float preu;
@@ -18,7 +20,7 @@ public abstract class Producte {
         return nom;
     }
 
-    public float getPreu() {
+    public float getPreu(){
         return preu;
     }
 
@@ -38,6 +40,21 @@ public abstract class Producte {
     }
     //-------------------------------------------------------------------------------
 
+    //------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        return  "       nom='" + nom + '\'' + "\n" +
+                "       preu=" + preu + "\n" +
+                "       Codi_de_barres='" + CODI_DE_BARRES + '\'';
+    }
+    //------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------------
     // Classe abstracta per calcular el preu
     public abstract float calcularPreu();
+    //-------------------------------------------------------------------------------
+
+
+
+
 }
