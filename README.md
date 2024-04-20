@@ -24,3 +24,6 @@
 ### Suclasse de producte 'Textil'
 - Sobreescrivim el mètode calcularpreu(), però deixiem els valors de la classe super.   
   
+### Suclasse de producte 'Electronica'
+- Sobreescrivim el mètode calcularpreu() i fem l'operacio de l'enunciat. El preu d'aquest tipus de producte varia en funció dels dies que té de garantia.
+  

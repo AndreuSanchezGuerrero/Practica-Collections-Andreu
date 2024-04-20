@@ -10,13 +10,13 @@
 ~~preu - preu*(1/(dataCaducitat-dataActual+1)) - (preu * 0.1)~~
 ~~Falta el control de errores por regex~~
 
-    Tèxtil: composició tèxtil (text)
+~~Tèxtil: composició tèxtil (text)~~
 
-    Electrònica: dies de garantia (numèric)
+~~Electrònica: dies de garantia (numèric)~~
 
-        El preu d'aquest tipus de producte varia en funció dels dies que té de garantia segons la fórmula:
+~~El preu d'aquest tipus de producte varia en funció dels dies que té de garantia segons la fórmula:~~
 
-         preu + preu*(diesGarantia/365)*0.1
+~~preu + preu*(diesGarantia/365)*0.1~~
 
 L'aplicació que heu de fer ha de permetre emmagatzemar tots els productes que s'hi van introduint (màxim 100 productes) i calcular-ne el preu. 
 
