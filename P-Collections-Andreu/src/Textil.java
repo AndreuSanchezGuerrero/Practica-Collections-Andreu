@@ -14,6 +14,11 @@ public class Textil extends Producte {
     public String getComposicioTextil() {
         return composicioTextil;
     }
+
+    @Override
+    public float getPreu() {
+        return calcularPreu();
+    }
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
@@ -36,8 +41,8 @@ public class Textil extends Producte {
     public String toString() {
         return "Textil{" + "\n" +
                 super.toString() + "\n" +
-                "       ComposicioTextil = '" + composicioTextil + '\'' + "\n" +
-                "       Preu final (no varia) = " + getPreu() + "\n" +
+                "       Composició textil = '" + composicioTextil + '\'' + "\n" +
+                "       Preu final (no varia) = " + calcularPreu() + "\n" +
                 "}";
     }
     //-----------------------------------------------------------------------------

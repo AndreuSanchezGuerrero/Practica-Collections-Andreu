@@ -18,7 +18,7 @@
 
 ~~preu + preu*(diesGarantia/365)*0.1~~
 
-L'aplicació que heu de fer ha de permetre emmagatzemar tots els productes que s'hi van introduint (màxim 100 productes) i calcular-ne el preu. 
+L'aplicació que heu de fer ha de permetre emmagatzemar tots els productes que s'hi van introduint (màxim 100 productes) i calcular-ne el preu.
 
 També ha de permetre que, en passar per caixa, es generi el tiquet de compra i es buidi el carro.
 

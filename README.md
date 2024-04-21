@@ -26,4 +26,9 @@
   
 ### Suclasse de producte 'Electronica'
 - Sobreescrivim el mètode calcularpreu() i fem l'operacio de l'enunciat. El preu d'aquest tipus de producte varia en funció dels dies que té de garantia.
+- En el main ja comprovarem si l'usuari no ha posat un enter amb l'error InputMismatchException.
   
+## Classe CarroCompra
+- Classe important on definirem tots els mètodes i funcions amb els quals omplirem el main, de forma que en el main només tinguem les opcions a escollir.  
+- Al mètode menu1() fem que ens surtin els guions a nivell amb la String de saludar, que no sabrem si es bon dia, bona tarda o bonanit. En aquest mètode, donem les opcions principals a escollir.
+- Fem una variable on guardarem la hora actual per després fer un mètode per saber si es de dia, per la tarda o per la nit. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit.

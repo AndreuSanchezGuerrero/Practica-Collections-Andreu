@@ -14,6 +14,11 @@ public class Electronica extends Producte {
     public int getDiesGarantia() {
         return diesGarantia;
     }
+
+    @Override
+    public float getPreu() {
+        return calcularPreu();
+    }
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
@@ -30,6 +35,17 @@ public class Electronica extends Producte {
     public float calcularPreu() {
         float operacioGarantia = super.getPreu() + super.getPreu()*(diesGarantia/365)*0.1f;
         return operacioGarantia;
+    }
+    //-----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        return "Electrònica{" + "\n" +
+                super.toString() + "\n" +
+                "       Dies de garantia = '" + diesGarantia + '\'' + "\n" +
+                "       Preu final = " + getPreu() + "\n" +
+                "}";
     }
     //-----------------------------------------------------------------------------
 
