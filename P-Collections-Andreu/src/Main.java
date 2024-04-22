@@ -11,8 +11,9 @@ public class Main {
             carro.menu1();
             opcioMenuPrincipal = input.nextInt();
             switch(opcioMenuPrincipal) {
-                case 1:
+                case 1: // Introduir producte
                     do {
+                        carro.menu2();
                         opcioMenuOpcio1 = input.nextInt();
                         switch(opcioMenuOpcio1) {
                             case 1:
