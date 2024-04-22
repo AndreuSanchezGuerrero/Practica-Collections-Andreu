@@ -28,7 +28,9 @@ public class Main {
                                 System.out.println("Afegir electrònica");
                                 //compra.addElectronica();
                                 break;
-                            default: break;
+                            default:
+                                System.out.println("No es una opció correcte, torna-ho a provar");
+                                break;
                         }
                     }while(opcioMenuOpcio1!=0);
                     break;
@@ -38,7 +40,9 @@ public class Main {
                     //compra.printCarret();
                     break;
                 case 0:	System.out.println("Gràcies per la seva visita"); break;
-                default: break;
+                default:
+                    System.out.println(opcioMenuPrincipal + " No es una opció correcte, torna-ho a provar");
+                    break;
             }
         }while(opcioMenuPrincipal!=0);
     }

@@ -11,12 +11,6 @@ public class Alimentacio extends Producte {
     // Constructor
     public Alimentacio(String nom, float preu, String CODI_DE_BARRES, String dataCaducitat) {
         super(nom, preu, CODI_DE_BARRES);
-        while (!comprovarDataCaducitat(dataCaducitat)) {
-            System.out.println();
-            System.out.println("Data incorrecta, torna-ho a provar.");
-            System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
-            dataCaducitat = scan.nextLine();
-        }
         this.dataCaducitat = dataCaducitat;
     }
     //------------------------------------------------------------------------
@@ -61,15 +55,6 @@ public class Alimentacio extends Producte {
                 "       dataCaducitat = '" + dataCaducitat + '\'' + "\n" +
                 "       Preu final = " + getPreu() + "\n" +
                 "}";
-    }
-    //------------------------------------------------------------------------
-
-    //------------------------------------------------------------------------
-    // Expressió regular per validar la data
-    private boolean comprovarDataCaducitat(String data) {
-        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
-        Matcher mat = patron.matcher(data);
-        return mat.matches();
     }
     //------------------------------------------------------------------------
 }

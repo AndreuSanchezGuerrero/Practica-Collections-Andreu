@@ -3,6 +3,8 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CarroCompra {
     // Dades globals
@@ -82,18 +84,20 @@ public class CarroCompra {
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
-    // Mètode per afegir un producte a la llista de productes global
-    public void afegirProducte() {
-
-    }
-    //-----------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------
     // Metode per mostrar el carret de la compra
     public void mostrarProductesCarret() {
         for(Producte producte:llistaProductes) {
             System.out.println("Producte: " + producte);
         }
+    }
+    //-----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    // Mètode per afegir un producte a la llista de productes generals
+    public void afegirProducteGeneral(Alimentacio producte) {
+        llistaProductes.add(producte);
+
+        mapProductes.put(producte.getNom(), 1);
     }
     //-----------------------------------------------------------------------------
 
@@ -118,10 +122,16 @@ public class CarroCompra {
         }
         System.out.println("Introdueix la data de caducitat del producte: ");
         dataCaducitat = input.nextLine();
+        while (!comprovarDataCaducitat(dataCaducitat)) {
+            System.out.println();
+            System.out.println("Data incorrecta, torna-ho a provar.");
+            System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
+            dataCaducitat = input.nextLine();
+        }
         //
         Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
         llistaAlimentacio.add(producte);
-
+        afegirProducteGeneral(producte);
         System.out.println("Producte "+nom+ " afegit correctament");
     }
     //-----------------------------------------------------------------------------
@@ -150,6 +160,15 @@ public class CarroCompra {
         return codiDeBarresFinal;
     }
     //-------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------
+    // Expressió regular per validar la data
+    private boolean comprovarDataCaducitat(String data) {
+        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
+        Matcher mat = patron.matcher(data);
+        return mat.matches();
+    }
+    //------------------------------------------------------------------------
 
 }
 

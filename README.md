@@ -45,9 +45,29 @@
 - Classe important on definirem tots els mètodes i funcions amb els quals omplirem el main, de forma que en el main només tinguem les opcions a escollir.
 - **En aquest context no necessitem operacions específiques de LinkedList, com ara la inserció o eliminació enmig de la llista, i atès que accedirem als elements de manera seqüencial, ArrayList sembla l'opció més adequada. A més, ArrayList ofereix un accés més ràpid als elements mitjançant índexs.** 
 - Tenim 3 arrayList, un per a cada subclasse de Producte. 
-- Al mètode menu1() fem que ens surtin els guions a nivell amb la String de saludar. La aplicació ens dirà 'bon dia', 'bona tarda' o 'bonanit' en funció de l'hora que sigui. 
+- Mètode saludar() 
+    1. La aplicació ens dirà 'bon dia', 'bona tarda' o 'bonanit' en funció de l'hora que sigui.
+    2. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit. 
 ````java
+    public String saludar() {
+        // Obtenir l'hora actual
+        LocalTime horaActual = LocalTime.now();
 
+        // Saludar en funció de l'hora
+        String saludar;
+        if (horaActual.isBefore(LocalTime.of(14, 0)) && horaActual.isAfter(LocalTime.of(06, 0))) {
+            saludar = "Bon dia";
+        } else if (horaActual.isBefore(LocalTime.of(20, 0))&& horaActual.isAfter(LocalTime.of(14, 0))) {
+            saludar = "Bona tarda";
+        } else {
+            saludar = "Bona nit";
+        }
+        return saludar;
+    }
 ````
-- En aquest mètode, donem les opcions principals a escollir.
-- Fem una variable on guardarem la hora actual per després fer un mètode per saber si es de dia, per la tarda o per la nit. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit.
+- Mètode menu1()
+    1. Fem que ens surtin els guions a nivell amb la String de saludar. Fem que saludar pasi a ser una llista amb el '.split'.
+    2. Mostrem les opcions que podem escollir.
+- En cas d'introduir '1' al menu1(), s'executarà el menu2() amb opcions a escollir. 
+   
+ 
