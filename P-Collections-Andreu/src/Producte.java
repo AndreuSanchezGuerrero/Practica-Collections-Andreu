@@ -1,9 +1,13 @@
+import java.util.HashMap;
+import java.util.Random;
 import java.util.regex.*;
+
 
 public abstract class Producte {
     private String nom;
     private float preu;
     private final String CODI_DE_BARRES;
+
 
     //-------------------------------------------------------------------------------
     // Constructor
@@ -54,7 +58,13 @@ public abstract class Producte {
     public abstract float calcularPreu();
     //-------------------------------------------------------------------------------
 
-
+    //-------------------------------------------------------------------------------
+    public boolean comprovarCodiDeBarres(String CODI_DE_BARRES) {
+        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
+        Matcher mat = patron.matcher(CODI_DE_BARRES);
+        return mat.matches();
+    }
+    //-------------------------------------------------------------------------------
 
 
 }
