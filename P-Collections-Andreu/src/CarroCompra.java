@@ -7,18 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CarroCompra {
+    Scanner input = new Scanner(System.in);
     // Dades globals
     // Llista de productes per calcular el preu
     private ArrayList<Producte> llistaProductes;
 
     // Diccionari per veure els productes del carro
     private HashMap<String, Integer> mapProductes;
-
-    // Llistes de productes de cada categoria
-    private ArrayList<Alimentacio> llistaAlimentacio;
-    private ArrayList<Textil> llistaTextil;
-    private ArrayList<Electronica> llistaElectronica;
-    Scanner input = new Scanner(System.in);
 
     //Diccionari que farem servir per crear un codi de barres aleatori
     private static HashMap<String, String> nomYCodigsProductes;
@@ -31,9 +26,6 @@ public class CarroCompra {
         random = new Random();
         mapProductes = new HashMap<>();
         llistaProductes = new ArrayList<Producte>();
-        llistaAlimentacio = new ArrayList<Alimentacio>();
-        llistaTextil = new ArrayList<Textil>();
-        llistaElectronica = new ArrayList<Electronica>();
     }
     //-----------------------------------------------------------------------------
 
@@ -95,9 +87,20 @@ public class CarroCompra {
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte a la llista de productes generals
     public void afegirProducteGeneral(Alimentacio producte) {
+        // Afegim el producte a la llista de productes generals per calcular el preu
         llistaProductes.add(producte);
 
-        mapProductes.put(producte.getNom(), 1);
+
+        // Afegim el producte al diccionari de productes per veure els productes del carro i quants tenim
+        if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
+            // Si el producte ja existeix, augmentar la quantitat +1.
+            int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
+            mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
+        } else {
+            // Si el producte no existeix, afegir-lo amb una quantitat de 1
+            mapProductes.put(producte.getCODI_DE_BARRES(), 1);
+        }
+        System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
     }
     //-----------------------------------------------------------------------------
 
@@ -130,33 +133,16 @@ public class CarroCompra {
         }
         //
         Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
-        llistaAlimentacio.add(producte);
         afegirProducteGeneral(producte);
         System.out.println("Producte "+nom+ " afegit correctament");
-    }
-    //-----------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------
-    // Màtode per afegir un producte de tèxtil a la llista de productes de tèxtil
-    public void introduirProducteTextil(Textil textil) {
-        llistaTextil.add(textil);
-        System.out.println("Producte "+textil.getNom()+ " afegit correctament");
-    }
-    //-----------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------
-    // Màtode per afegir un producte de electrònica a la llista de productes de electrònica
-    public void introduirProducteElectronica(Electronica electronica) {
-        llistaElectronica.add(electronica);
-        System.out.println("Producte "+electronica.getNom()+ " afegit correctament");
     }
     //-----------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------------
     // Generem el codi de barres de forma aleatoria
     public String generarCodiDeBarres(String nom) {
-        int numeroAleatori = random.nextInt(1000);
-        String codiDeBarresFinal = nom + "-" + String.format("%03d", numeroAleatori);
+        int numeroAleatori = random.nextInt(100,999);
+        String codiDeBarresFinal = nom + "-" + String.valueOf(numeroAleatori);
         return codiDeBarresFinal;
     }
     //-------------------------------------------------------------------------------

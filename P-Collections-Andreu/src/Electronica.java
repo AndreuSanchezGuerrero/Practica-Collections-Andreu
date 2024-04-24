@@ -33,6 +33,7 @@ public class Electronica extends Producte {
     // Sobreescrivim el mètode abstracte de Producte i fem l'operacio de l'enunciat
     @Override
     public float calcularPreu() {
+        // Fem l'operació de l'enunciat
         float operacioGarantia = super.getPreu() + super.getPreu()*(diesGarantia/365)*0.1f;
         return operacioGarantia;
     }

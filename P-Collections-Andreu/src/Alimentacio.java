@@ -1,17 +1,15 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Alimentacio extends Producte {
-    private String dataCaducitat; // dd-mm-yyyy
+    private String DATACADUCITAT; // dd-mm-yyyy
     Scanner scan = new Scanner(System.in);
     //------------------------------------------------------------------------
     // Constructor
     public Alimentacio(String nom, float preu, String CODI_DE_BARRES, String dataCaducitat) {
         super(nom, preu, CODI_DE_BARRES);
-        this.dataCaducitat = dataCaducitat;
+        this.DATACADUCITAT = dataCaducitat;
     }
     //------------------------------------------------------------------------
 
@@ -19,8 +17,11 @@ public class Alimentacio extends Producte {
     // Sobreescrivim el mètode obstracte de Producte
     @Override
     public float calcularPreu() {
+        // Obtenim la data actual
         LocalDate dataActual = LocalDate.now();
-        LocalDate dataParsejada = LocalDate.parse(dataCaducitat, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
+        // Guardem la DATACADUCITAT en format LocalDate i la parsegem al format dd-mm-yyyy.
+        LocalDate dataParsejada = LocalDate.parse(DATACADUCITAT, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         // Operació de l'enunciat
         int resta = dataActual.until(dataParsejada).getDays() +1;
         float preuFinal = super.getPreu() - super.getPreu() * (1.0f / resta) + (super.getPreu() * 0.1f);
@@ -30,8 +31,8 @@ public class Alimentacio extends Producte {
 
     //------------------------------------------------------------------------
     // Getters
-    public String getDataCaducitat() {
-        return dataCaducitat;
+    public String getDATACADUCITAT() {
+        return DATACADUCITAT;
     }
 
     @Override
@@ -41,18 +42,11 @@ public class Alimentacio extends Producte {
     //------------------------------------------------------------------------
 
     //------------------------------------------------------------------------
-    // Setters
-    public void setDataCaducitat(String dataCaducitat) {
-        this.dataCaducitat = dataCaducitat;
-    }
-    //------------------------------------------------------------------------
-
-    //------------------------------------------------------------------------
     @Override
     public String toString() {
         return "Alimentacio{" + "\n" +
                 super.toString() + "\n" +
-                "       dataCaducitat = '" + dataCaducitat + '\'' + "\n" +
+                "       dataCaducitat = '" + DATACADUCITAT + '\'' + "\n" +
                 "       Preu final = " + getPreu() + "\n" +
                 "}";
     }
