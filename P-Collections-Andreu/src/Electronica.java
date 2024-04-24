@@ -28,7 +28,6 @@ public class Electronica extends Producte {
     }
     //-----------------------------------------------------------------------------
 
-
     //-----------------------------------------------------------------------------
     // Sobreescrivim el mètode abstracte de Producte i fem l'operacio de l'enunciat
     @Override
@@ -49,5 +48,4 @@ public class Electronica extends Producte {
                 "}";
     }
     //-----------------------------------------------------------------------------
-
 }

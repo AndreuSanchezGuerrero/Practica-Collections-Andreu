@@ -63,6 +63,8 @@
   
 ## Suclasse de producte 'Electronica'
 
+- En aquest cas data de garantia si que es podrá modificar. Perquè es posible que al producte li retallin la vida de garantia o extendre-la.
+
 - Sobreescrivim el mètode calcularpreu() i fem l'operacio de l'enunciat. El preu d'aquest tipus de producte varia en funció dels dies que té de garantia.
 
 ````java
@@ -114,16 +116,51 @@
 
 -**Farem dos hasmap. Un per crear aleatoriament el codi de barres i un per mostrar el carret**
 
--Mètode per crear aleatoriament el codi de barres fent servir el hasmap nomYCodigsProductes
+- generarCodiDeBarres(String nom) -> Mètode per crear aleatoriament el codi de barres fent servir el hasmap nomYCodigsProductes.
 
 ````java
 
+    // Generem el codi de barres de forma aleatoria
+    public String generarCodiDeBarres(String nom) {
+        // Guardem en aquesta variable un numero aleatori entre 100 i 999 perquè aixi tenim un codi de barres de 3 digits
+        int numeroAleatori = random.nextInt(100,999);
+
+        // Concatenem el nom del producte amb el numero aleatori
+        String codiDeBarresFinal = nom + "-" + String.valueOf(numeroAleatori);
+        return codiDeBarresFinal;
+    }
+    
+````
+
+- afegirProducte(Alimentacio Producte) -> Mètode per afegir un producte a la llista de productes i al mapa de productes que el necessitarem per fer un recorregut del carro.
+      1. Afegim el producte a la llista de productes, ho necessitarem per calcular el preu de tot el carret.
+      2. Afegim el producte al diccionari de productes, ho necessitarem més endevant per veure els productes del carro i quants tenim amb el mateix codi de barres.
+  
+````java
+
+    public void afegirProducte(Alimentacio producte) {
+        
+        // 
+        llistaProductes.add(producte);
+
+        //
+        if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
+            // Si el producte ja existeix, augmentar la quantitat +1.
+            int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
+            mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
+        } else {
+            // Si el producte no existeix, afegir-lo amb una quantitat de 1
+            mapProductes.put(producte.getCODI_DE_BARRES(), 1);
+        }
+        System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
+    }
 ````
 
 - Mètode saludar()
   
     1. La aplicació ens dirà 'bon dia', 'bona tarda' o 'bonanit' en funció de l'hora que sigui.
     2. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit. 
+
 ````java
     public String saludar() {
         // Obtenir l'hora actual
@@ -141,11 +178,30 @@
         return saludar;
     }
 ````
-- Mètode menu1()
-    1. Fem que ens surtin els guions a nivell amb la String de saludar. Fem que saludar pasi a ser una llista amb el '.split'.
-    2. Mostrem les opcions que podem escollir.
 
-- En cas d'introduir '1' al menu1(), s'executarà el menu2() amb opcions a escollir. 
+- menu1() -> Mostrem les opcions que podem escollir. Aquesta funció s'executarà des de el main.
+
+````java
+    // Metode per mostrar el menu principal
+    public void menu1() {
+       // Guardem la mida de la String saludar per que quedi nivellat amb els guions
+        String saludar = "---" + saludar() + " benvingut al mercat online---";
+        // Fem que saludar pasi a ser una llista amb el '.split'. Amb el bucle 'for' fem el recorregut de la llista i per cada recorregut, afegim un guió a la variable guions perquè aixì queda simetric.
+        String guions = "";
+        for (String guion:saludar.split("")) {
+            guions += "-";
+        }
+        System.out.println(guions);
+        System.out.println(saludar);
+        System.out.println(guions);
+        System.out.println("(1) Introduir producte");
+        System.out.println("(2) Passar per caixa");
+        System.out.println("(3) Mostar carret de compra");
+        System.out.println("(0) Acabar");
+    }
+````
+
+- En cas d'introduir '1' al menu1(), s'executarà el menu2() amb opcions a escollir.
 
 - Expressió regular per validar la data.
     1. '^' indica el principi de la cadena.
@@ -155,5 +211,75 @@
     5. '-' Separació per guió.
     6. '(202[5-9]|20[3-9][0-9])' Permet valors de 2025 hasta 2099.
     7. '$'.
-   
- 
+
+````java
+// Expressió regular per validar la data
+    private boolean comprovarDataCaducitat(String data) {
+        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
+        Matcher mat = patron.matcher(data);
+        return mat.matches();
+    }
+````
+
+- afegirProducte(Alimentacio producte) -> Mètode que fem servir per afegir un producte al diccionari de productes i a la llista de productes.
+
+````java
+  public void afegirProducte(Alimentacio producte) {
+        // Afegim el producte a la llista de productes generals per calcular el preu
+        llistaProductes.add(producte);
+
+        // Afegim el producte al diccionari de productes per veure els productes del carro i quants tenim
+        if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
+            // Si el producte ja existeix, augmentar la quantitat +1.
+            int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
+            mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
+        } else {
+            // Si el producte no existeix, afegir-lo amb una quantitat de 1
+            mapProductes.put(producte.getCODI_DE_BARRES(), 1);
+        }
+        System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
+    }
+````
+
+- crearProducte() -> Creació de producte i dintre cridem a afegirproducte(producte)
+
+````java
+    public void crearProducte() {
+        //
+        String nom;
+        float preu;
+        String codiDeBarres;
+        String dataCaducitat;
+        //
+        System.out.println("Introdueix el nom del producte: ");
+        nom = input.nextLine();
+        System.out.println("Introdueix el preu del producte: ");
+        preu = input.nextFloat();
+
+        // Comprovem si el nom ja ha sortit previament.
+        // Si no ha sortit generem un codi de barres.
+        // Si ja ha sortit, agafim el codi de barres ja generat previament per aquest nom.
+        if (nomYCodigsProductes.containsKey(nom)) {
+            codiDeBarres = nomYCodigsProductes.get(nom);
+        } else {
+            codiDeBarres= generarCodiDeBarres(nom);
+            nomYCodigsProductes.put(nom, codiDeBarres);
+        }
+
+        // Comprovem la data de caducitat i si no es correcta tornem a provar. No es un error tan greu com per llançar una excepció
+        System.out.println("Introdueix la data de caducitat del producte: ");
+        dataCaducitat = input.nextLine();
+        while (!comprovarDataCaducitat(dataCaducitat)) {
+            System.out.println();
+            System.out.println("Data incorrecta, torna-ho a provar.");
+            System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
+            dataCaducitat = input.nextLine();
+        }
+        
+        // Creem el producte i l'afegim a la llista de productes i al diccionari de productes
+        Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
+        afegirProducte(producte);
+        System.out.println("Producte "+nom+ " afegit correctament");
+    }
+````
+

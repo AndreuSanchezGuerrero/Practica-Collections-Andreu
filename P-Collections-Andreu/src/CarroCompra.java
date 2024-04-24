@@ -86,10 +86,9 @@ public class CarroCompra {
 
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte a la llista de productes generals
-    public void afegirProducteGeneral(Alimentacio producte) {
+    public void afegirProducte(Alimentacio producte) {
         // Afegim el producte a la llista de productes generals per calcular el preu
         llistaProductes.add(producte);
-
 
         // Afegim el producte al diccionari de productes per veure els productes del carro i quants tenim
         if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
@@ -106,7 +105,7 @@ public class CarroCompra {
 
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte de alimentació a la llista de productes de alimentació
-    public void crearProducteAlimentacio() {
+    public void crearProducte() {
         //
         String nom;
         float preu;
@@ -117,12 +116,18 @@ public class CarroCompra {
         nom = input.nextLine();
         System.out.println("Introdueix el preu del producte: ");
         preu = input.nextFloat();
+
+        // Comprovem si el nom ja ha sortit previament.
+        // Si no ha sortit generem un codi de barres.
+        // Si ja ha sortit, agafim el codi de barres ja generat previament per aquest nom.
         if (nomYCodigsProductes.containsKey(nom)) {
             codiDeBarres = nomYCodigsProductes.get(nom);
         } else {
             codiDeBarres= generarCodiDeBarres(nom);
             nomYCodigsProductes.put(nom, codiDeBarres);
         }
+
+        // Comprovem la data de caducitat i si no es correcta tornem a provar. No es un error tan greu com per llançar una excepció
         System.out.println("Introdueix la data de caducitat del producte: ");
         dataCaducitat = input.nextLine();
         while (!comprovarDataCaducitat(dataCaducitat)) {
@@ -131,9 +136,10 @@ public class CarroCompra {
             System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
             dataCaducitat = input.nextLine();
         }
-        //
+
+        // Creem el producte i l'afegim a la llista de productes i al diccionari de productes
         Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
-        afegirProducteGeneral(producte);
+        afegirProducte(producte);
         System.out.println("Producte "+nom+ " afegit correctament");
     }
     //-----------------------------------------------------------------------------
@@ -141,7 +147,10 @@ public class CarroCompra {
     //-------------------------------------------------------------------------------
     // Generem el codi de barres de forma aleatoria
     public String generarCodiDeBarres(String nom) {
+        // Guardem en aquesta variable un numero aleatori entre 100 i 999 perquè aixi tenim un codi de barres de 3 digits
         int numeroAleatori = random.nextInt(100,999);
+
+        // Concatenem el nom del producte amb el numero aleatori
         String codiDeBarresFinal = nom + "-" + String.valueOf(numeroAleatori);
         return codiDeBarresFinal;
     }
