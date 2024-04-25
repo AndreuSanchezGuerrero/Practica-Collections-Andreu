@@ -1,9 +1,10 @@
 public class Textil extends Producte {
-    private String composicioTextil;
+    public enum enumCompositioTextil {ALGODON, POLIESTER, LINO, SEDA, LANA, NYLON, OTRO;};
+    enumCompositioTextil composicioTextil;
 
     //-----------------------------------------------------------------------------
     // Constructor
-    public Textil(String nom, float preu, String CODI_DE_BARRES, String composicioTextil) {
+    public Textil(String nom, float preu, String CODI_DE_BARRES, enumCompositioTextil composicioTextil) {
         super(nom, preu, CODI_DE_BARRES);
         this.composicioTextil = composicioTextil;
     }
@@ -11,7 +12,7 @@ public class Textil extends Producte {
 
     //-----------------------------------------------------------------------------
     // Getters
-    public String getComposicioTextil() {
+    public enumCompositioTextil getComposicioTextil() {
         return composicioTextil;
     }
 
@@ -24,7 +25,7 @@ public class Textil extends Producte {
     //-----------------------------------------------------------------------------
     // Setters
     public void setComposicioTextil(String composicioTextil) {
-        this.composicioTextil = composicioTextil;
+        this.composicioTextil = enumCompositioTextil.valueOf(composicioTextil);
     }
     //-----------------------------------------------------------------------------
 

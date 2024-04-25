@@ -10,7 +10,7 @@ public class CarroCompra {
     Scanner input = new Scanner(System.in);
     // Dades globals
     // Llista de productes per calcular el preu
-    private ArrayList<Producte> llistaProductes;
+    protected ArrayList<Producte> llistaProductes;
 
     // Diccionari per veure els productes del carro
     private HashMap<String, Integer> mapProductes;
@@ -18,6 +18,9 @@ public class CarroCompra {
     //Diccionari que farem servir per crear un codi de barres aleatori
     private static HashMap<String, String> nomYCodigsProductes;
     private static Random random;
+
+    // Variable constant que limita el nombre de productes
+    static int LIMIT_PRODUCTES = 100;
 
     //-----------------------------------------------------------------------------
     // Constructor
@@ -67,15 +70,6 @@ public class CarroCompra {
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
-    public void menu2() {
-        System.out.println("(1) Afegir aliment");
-        System.out.println("(2) Afegir tèxtil");
-        System.out.println("(3) Afegir electrònica");
-        System.out.println("(0) Acabar");
-    }
-    //-----------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------
     // Metode per mostrar el carret de la compra
     public void mostrarProductesCarret() {
         for(Producte producte:llistaProductes) {
@@ -86,7 +80,7 @@ public class CarroCompra {
 
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte a la llista de productes generals
-    public void afegirProducte(Alimentacio producte) {
+    public void afegirProducte(Producte producte) {
         // Afegim el producte a la llista de productes generals per calcular el preu
         llistaProductes.add(producte);
 
@@ -105,15 +99,32 @@ public class CarroCompra {
 
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte de alimentació a la llista de productes de alimentació
-    public void crearProducte() {
+    public void escollirProducte() throws ExcepcionsPropies.DataCaducitatException, ExcepcionsPropies.negatiuException {
+        System.out.println();
+        System.out.println("---Afegir producte---");
         //
+        int categoria;
         String nom;
         float preu;
         String codiDeBarres;
-        String dataCaducitat;
-        //
+
+
+        // Demanem dades del producte
+        System.out.println("Introdueix la categoria del producte:");
+        System.out.println("(1) Alimentacio");
+        System.out.println("(2) Electronica");
+        System.out.println("(3) Textil");
+        categoria = input.nextInt();
+
+        // Comprovem que l'entrada sigui entre 1 i 3, si no tornem a demanar
+        while (categoria < 1 || categoria > 3) {
+            System.out.println("Entrada no valida. S'esperava un enter entre 1 i 3, torna a provar.");
+            categoria = input.nextInt();
+        }
+
         System.out.println("Introdueix el nom del producte: ");
-        nom = input.nextLine();
+        nom = input.next();
+
         System.out.println("Introdueix el preu del producte: ");
         preu = input.nextFloat();
 
@@ -127,20 +138,48 @@ public class CarroCompra {
             nomYCodigsProductes.put(nom, codiDeBarres);
         }
 
-        // Comprovem la data de caducitat i si no es correcta tornem a provar. No es un error tan greu com per llançar una excepció
-        System.out.println("Introdueix la data de caducitat del producte: ");
-        dataCaducitat = input.nextLine();
-        while (!comprovarDataCaducitat(dataCaducitat)) {
-            System.out.println();
-            System.out.println("Data incorrecta, torna-ho a provar.");
-            System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
+        Producte producte;
+        if (categoria == 1) { // Categoria 1 = Alimentacio
+            String dataCaducitat;
+            // Demanem la data de caducitat
+            System.out.println("Introdueix la data de caducitat del producte: ");
             dataCaducitat = input.nextLine();
+
+            // Comprovem la data de caducitat i si no es correcte llançem una excepció
+            if (!comprovarDataCaducitat(dataCaducitat)) {
+                throw new ExcepcionsPropies.DataCaducitatException("Data incorrecta, torna-ho a provar.");
+            }
+
+            // Creem el producte
+            producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
         }
 
-        // Creem el producte i l'afegim a la llista de productes i al diccionari de productes
-        Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
+        else if (categoria == 2) { // Categoria 2 = Electronica
+            int diesGarantia;
+            // Demanem els dies de garantia
+            System.out.println("Introdueix els dies de garantia del producte: ");
+            diesGarantia = input.nextInt();
+
+            // Comprovem que dies de garantia sigui un enter positiu
+            if (diesGarantia < 0) {
+                throw new ExcepcionsPropies.negatiuException("Entrada no valida. La garantia ha de ser un enter positiu.");
+            }
+
+            // Creem el producte
+            producte = new Electronica(nom, preu, codiDeBarres, diesGarantia);
+        }
+
+        else { // Categoria 3 = Textil, ja haviem comprovat que sigui entre 1 i 3, per descart queda textil
+            String composicioTextil;
+            // Demanem la composicio del textil
+            System.out.println("Introdueix la composició del textil: ");
+            composicioTextil = input.nextLine();
+            // Creem el producte
+            producte = new Textil(nom, preu, codiDeBarres, Textil.enumCompositioTextil.valueOf(composicioTextil));
+        }
+
         afegirProducte(producte);
-        System.out.println("Producte "+nom+ " afegit correctament");
+        System.out.println("Producte "+nom+" amb codi de barres "+'\''+codiDeBarres+'\''+" afegit correctament");
     }
     //-----------------------------------------------------------------------------
 

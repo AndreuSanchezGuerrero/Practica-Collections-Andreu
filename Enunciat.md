@@ -18,7 +18,7 @@
 
 ~~preu + preu*(diesGarantia/365)*0.1~~
 
-L'aplicació que heu de fer ha de permetre emmagatzemar tots els productes que s'hi van introduint (màxim 100 productes) i calcular-ne el preu.
+~~L'aplicació que heu de fer ha de permetre emmagatzemar tots els productes que s'hi van introduint (màxim 100 productes) i calcular-ne el preu.~~
 
 També ha de permetre que, en passar per caixa, es generi el tiquet de compra i es buidi el carro.
 
@@ -28,13 +28,13 @@ Fer un programa principal que faci ús de les classes dissenyades. La descripci�
 
 ~~1.1. Alimentació En escollir aquesta opció s'ha de demanar que s'entri per teclat les dades d'un producte del tipus Alimentació~~
 
-            1.2. Tèxtil En escollir aquesta opció s'ha de demanar que s'entri per teclat les dades d'un producte del tipus Tèxtil
+~~1.2. Tèxtil En escollir aquesta opció s'ha de demanar que s'entri per teclat les dades d'un producte del tipus Tèxtil~~
 
-            1.3. Electrònica En escollir aquesta opció s'ha de demanar que s'entri per teclat les dades d'un producte del tipus Electrònica
+~~1.3. Electrònica En escollir aquesta opció s'ha de demanar que s'entri per teclat les dades d'un producte del tipus Electrònica~~
 
-            1.0. Tornar En escollir aquesta opció s'ha de tornar al menú principal
+~~1.0. Tornar En escollir aquesta opció s'ha de tornar al menú principal~~
 
-        2. Passar per caixa En escollir aquesta opció se simula que es passen tots els productes per caixa i es genera el tiquet.
+1. Passar per caixa En escollir aquesta opció se simula que es passen tots els productes per caixa i es genera el tiquet.
 
             El tiquet (es mostra per pantalla) ha de mostrar una capçalera amb: data de la compra i nom del supermercat. A continuació es mostra el detall amb: nom del producte, unitats introduïdes al carro, preu unitari i preu total. Finalment ha de calcular la suma total a pagar.
 
@@ -42,9 +42,9 @@ Fer un programa principal que faci ús de les classes dissenyades. La descripci�
 
             Aquesta opció també implica buidar el carro de la compra.
 
-        3. Mostrar carro de la compra En escollir aquesta opció es mostra un llistat amb la descripció i quantitat de cada producte (sense preu) que hi ha dins el carro del a compra. En aquest cas, si hi ha productes repetits ho seran si tenen el mateix codi de barres (no cal mirar el preu unitari).
+        1. Mostrar carro de la compra En escollir aquesta opció es mostra un llistat amb la descripció i quantitat de cada producte (sense preu) que hi ha dins el carro del a compra. En aquest cas, si hi ha productes repetits ho seran si tenen el mateix codi de barres (no cal mirar el preu unitari).
 
-        0. Sortir En escollir aquesta opció es tanca l'aplicació.
+        2. Sortir En escollir aquesta opció es tanca l'aplicació.
 
 
 ## Exemples
