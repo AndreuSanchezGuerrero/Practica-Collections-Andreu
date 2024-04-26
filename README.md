@@ -1,5 +1,10 @@
 # Explicació de la práctica
 
+## .gitignore
+
+- He fet un .gitignore per no pujar al repositori els fitxers que crea el IDE (fitxers .iml).
+- El propi java incorpora un .gitignore per no pujar res del out.
+
 ## Classe abstracte 'Producte'
 
 - La classe és abstracta per no poder crear productes, només en podrem crear subclasses de la mateixa.

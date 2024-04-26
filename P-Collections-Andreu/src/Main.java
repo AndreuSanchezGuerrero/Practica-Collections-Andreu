@@ -18,18 +18,19 @@ public class Main {
                 // (0) Acabar;
                 carro.menu1();
 
-                // Possem opcioMenuPrincipal a 4 per entrar si o si al while.
                 // Demanem a l'usuari que entri l'opció que vol escollir i fem un doble control d'errors.
                 // Comprovem que l'entrada sigui un enter, si no es així que llenci una excepció.
                 // Si es un enter comprovem que sigui entre 0 i 3, si no tornem a demanar.
-                opcioMenuPrincipal = 4;
+                if (!input.hasNextInt()) {
+                    throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
+                }
+                opcioMenuPrincipal = input.nextInt();
                 while (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 3) {
+                    System.out.println("L'entrada ha de ser un enter entre 0 i 3, torna a provar.");
+                    opcioMenuPrincipal = input.nextInt();
+
                     if (!input.hasNextInt()) {
                         throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
-                    }
-                    opcioMenuPrincipal = input.nextInt();
-                    if (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 3) {
-                        System.out.println("L'entrada ha de ser un enter entre 0 i 3, torna a provar.");
                     }
                 }
                     switch (opcioMenuPrincipal) {
@@ -44,8 +45,9 @@ public class Main {
                             break;
                         case 2: //compra.passarCaixa(); break;
                         case 3:
-                            System.out.println("Carret");
-                            //compra.printCarret();
+                            System.out.println();
+                            carro.mostrarProductesCarret();
+                            System.out.println();
                             break;
                         case 0:
                             System.out.println("Gràcies per la seva visita");
@@ -60,12 +62,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
         catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
-        }
-        catch (ExcepcionsPropies.DataCaducitatException e) {
-            System.out.println(e.getMessage());
-        }
-        catch (ExcepcionsPropies.negatiuException e) {
             System.out.println(e.getMessage());
         }
 
