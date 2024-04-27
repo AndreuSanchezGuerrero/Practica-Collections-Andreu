@@ -1,5 +1,5 @@
-public class Textil extends Producte {
-    public enum enumCompositioTextil {ALGODON, POLIESTER, LINO, SEDA, LANA, NYLON, OTRO;};
+public class Textil extends Producte implements Comparable<Textil> {
+    public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
     enumCompositioTextil composicioTextil;
 
     //-----------------------------------------------------------------------------
@@ -45,6 +45,16 @@ public class Textil extends Producte {
                 "       Composició textil = '" + composicioTextil + '\'' + "\n" +
                 "       Preu final (no varia) = " + calcularPreu() + "\n" +
                 "}";
+    }
+    //-----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    // Metode de comparació
+    // La classe String ja te un mètode de comparació per default.
+    // Només hem de cridar al mètode de comparació (compareTo) per comparar dos strings
+    @Override
+    public int compareTo(Textil t1) {
+        return this.getComposicioTextil().compareTo(t1.getComposicioTextil());
     }
     //-----------------------------------------------------------------------------
 }

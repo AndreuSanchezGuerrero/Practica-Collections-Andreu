@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.*;
@@ -7,6 +8,7 @@ public abstract class Producte {
     private String nom;
     private float preu;
     private final String CODI_DE_BARRES;
+    private int quantitat;
 
 
     //-------------------------------------------------------------------------------
@@ -15,6 +17,7 @@ public abstract class Producte {
         this.nom = nom;
         this.preu = preu;
         this.CODI_DE_BARRES = CODI_DE_BARRES;
+        this.quantitat = 1;
     }
     //-------------------------------------------------------------------------------
 
@@ -31,6 +34,10 @@ public abstract class Producte {
     public String getCODI_DE_BARRES() {
         return CODI_DE_BARRES;
     }
+
+    public int getQuantitat() {
+        return quantitat;
+    }
     //-------------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------------
@@ -41,6 +48,10 @@ public abstract class Producte {
 
     public void setPreu(float preu) {
         this.preu = preu;
+    }
+
+    public void setQuantitat(int quantitat) {
+        this.quantitat = quantitat;
     }
     //-------------------------------------------------------------------------------
 
@@ -65,6 +76,8 @@ public abstract class Producte {
         return mat.matches();
     }
     //-------------------------------------------------------------------------------
+
+
 
 
 

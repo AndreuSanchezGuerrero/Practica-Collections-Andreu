@@ -25,8 +25,8 @@ public class Main {
                     throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
                 }
                 opcioMenuPrincipal = input.nextInt();
-                while (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 3) {
-                    System.out.println("L'entrada ha de ser un enter entre 0 i 3, torna a provar.");
+                while (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 4) {
+                    System.out.println("L'entrada ha de ser un enter entre 0 i 4, torna a provar.");
                     opcioMenuPrincipal = input.nextInt();
 
                     if (!input.hasNextInt()) {
@@ -37,9 +37,6 @@ public class Main {
                         case 1: // Introduir producte
 
                             // Comprovem que no hi hagin més de 100 productes al carret
-                            if (carro.llistaProductes.size() >= CarroCompra.LIMIT_PRODUCTES) {
-                                throw new ExcepcionsPropies.LimitProductesException("No es pot afegir més de 100 productes.");
-                            }
                             carro.escollirProducte();
 
                             break;
@@ -49,6 +46,12 @@ public class Main {
                             carro.mostrarProductesCarret();
                             System.out.println();
                             break;
+                        case 4:
+                            OmplirCarretAutomaticament omplir = new OmplirCarretAutomaticament();
+                            omplir.omplirCarretDeAliments(CarroCompra.llistaProductes);
+                            omplir.omplirCarretDeTextils(CarroCompra.llistaProductes);
+                            omplir.omplirCarretDeElectronics(CarroCompra.llistaProductes);
+                            break;
                         case 0:
                             System.out.println("Gràcies per la seva visita");
                             break;
@@ -57,11 +60,7 @@ public class Main {
                     }
                 }
                 while (opcioMenuPrincipal != 0) ;
-    }
-        catch (ExcepcionsPropies.LimitProductesException e) {
-            System.out.println(e.getMessage());
-        }
-        catch (InputMismatchException e) {
+    } catch (InputMismatchException e) {
             System.out.println(e.getMessage());
         }
 

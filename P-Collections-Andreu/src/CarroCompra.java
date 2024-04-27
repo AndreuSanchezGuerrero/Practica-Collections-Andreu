@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,17 +10,19 @@ public class CarroCompra {
     Scanner input = new Scanner(System.in);
     // Dades globals
     // Llista de productes per calcular el preu
-    protected ArrayList<Producte> llistaProductes;
+    protected static ArrayList<Producte> llistaProductes;
 
-    // Diccionari per veure els productes del carro
-    private HashMap<String, Integer> mapProductes;
+    protected static ArrayList<Producte> llistaProductesCopia;
 
     //Diccionari que farem servir per crear un codi de barres aleatori
-    private static HashMap<String, String> nomYCodigsProductes;
+    protected static HashMap<String, String> nomYCodigsProductes;
     private static Random random;
 
     // Diccionari que ferem servir per veure si tenim més de dos productes textils amb el mateix codi de barres
-    private HashMap<String, Integer> mapTextilsDuplicats = new HashMap<>();
+    private HashMap<String, Integer> mapTextilsDuplicats;
+
+    // Diccionari que ferem servir per veure si tenim més de dos productes de la mateixa marca amb el mateix codi de barres
+    protected static HashMap<String, Integer> mapProductesJaIntroduits;
 
     // Variable constant que limita el nombre de productes
     static int LIMIT_PRODUCTES = 100;
@@ -29,11 +32,15 @@ public class CarroCompra {
     public CarroCompra() {
         nomYCodigsProductes= new HashMap<>();
         random = new Random();
-        mapProductes = new HashMap<>();
+        mapTextilsDuplicats = new HashMap<>();
+        mapProductesJaIntroduits = new HashMap<>();
         llistaProductes = new ArrayList<Producte>();
+        llistaProductesCopia = new ArrayList<Producte>();
     }
     //-----------------------------------------------------------------------------
 
+//Bloc 1: Metodes menu1 i saludar
+//-----------------------------------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------
     // Metode per mostrar el menu principal
     public void menu1() {
@@ -53,6 +60,7 @@ public class CarroCompra {
     }
     //-----------------------------------------------------------------------------
 
+
     //-----------------------------------------------------------------------------
     public String saludar() {
         // Obtenir l'hora actual
@@ -70,49 +78,114 @@ public class CarroCompra {
         return saludar;
     }
     //-----------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+//Bloc 2: Metodes mostrarProductesCarret i estilMostrarProducte
+//-------------------------------------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------
     // Metode per mostrar el carret de la compra
     public void mostrarProductesCarret() {
         // Mostrar el carret de la compra
         estilMostrarProducte();
-        mapProductes.forEach((k,v) -> System.out.println(String.format("%-20s%20d", buscaProducte(k), v)));
+
+        // Mostrar el carret de la compra amb lambda expresion.
+        // String format igual que a estilMostrarProducte().
+        // String.format("%-20s%20s", "Producte", "Quantitat"). Lo que fem es afegir 20 espais a la esquerra i 20 espais a la dreta
+        // D'aquesta forma fem que quedi perfecte amb els guions. Igual que a un ticket de compra.
+
+
+        Collections.sort(llistaProductes, compareNom);
+        AtomicBoolean centinela1 = new AtomicBoolean(true);
+        AtomicBoolean centinela2 = new AtomicBoolean(true);
+        AtomicBoolean centinela3 = new AtomicBoolean(true);
+
+        llistaProductes.forEach((producteA) -> {
+                    if (producteA instanceof Alimentacio) {
+                        if (centinela1.get()) {
+                            System.out.println(String.format("%-20s", producteA.getClass().getSimpleName()));
+                            System.out.println(String.format("%-20s%-20s%9d", "", producteA.getNom(), producteA.getQuantitat()));
+                            centinela1.set(false);
+                        } else {
+                            System.out.println(String.format("%-20s%-20s%9d", "", producteA.getNom(), producteA.getQuantitat()));
+                        }
+                    }
+        });
+        llistaProductes.forEach((producteE) -> {
+            if (producteE instanceof Electronica) {
+                if (centinela2.get()) {
+                    System.out.println(String.format("%-20s", producteE.getClass().getSimpleName()));
+                    System.out.println(String.format("%-20s%-20s%9d", "", producteE.getNom(), producteE.getQuantitat()));
+                    centinela2.set(false);
+                } else {
+                    System.out.println(String.format("%-20s%-20s%9d", "", producteE.getNom(), producteE.getQuantitat()));
+                }
+            }
+        });
+        llistaProductes.forEach((producteT) -> {
+            if (producteT instanceof Textil) {
+                if (centinela3.get()) {
+                    System.out.println(String.format("%-20s", producteT.getClass().getSimpleName()));
+                    System.out.println(String.format("%-20s%-20s%9d", "", producteT.getNom(), producteT.getQuantitat()));
+                    centinela3.set(false);
+                } else {
+                    System.out.println(String.format("%-20s%-20s%9d", "", producteT.getNom(), producteT.getQuantitat()));
+                }
+            }
+        });
     }
 
     private static void estilMostrarProducte() {
         System.out.println();
-        String guions = "-".repeat(40);
+        String guions = "-".repeat(49);
         System.out.println(guions);
         System.out.println("Carret de la compra");
         System.out.println(guions);
-        System.out.println(String.format("%-20s%20s", "Producte", "Quantitat"));
+        System.out.println(String.format("%-20s%-20s%-9s", "Tipus de producte", "Producte", "Quantitat"));
         System.out.println(guions);
     }
     //-----------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte a la llista de productes generals
     public void afegirProducte(Producte producte) {
         try {
-            if (mapTextilsDuplicats.containsKey(producte.getCODI_DE_BARRES())) {
-                // Si el producte ja existeix, augmentar la quantitat +1.
-                throw new ExcepcionsPropies.LimitProductesException("No es pot afegir 2 textils amb el mateix codi de barres.");
-            } else {
-                // Si el producte no existeix, afegir-lo amb una quantitat de 1
-                mapTextilsDuplicats.put(producte.getCODI_DE_BARRES(), 1);
+            if (llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
+                throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
             }
-            llistaProductes.add(producte);
+            // Controlem que no hi hagin textils amb el mateix codi de barres
+            if (producte instanceof Textil) {
+                if (mapTextilsDuplicats.containsKey(producte.getCODI_DE_BARRES())) {
+                    // Si el producte ja existeix, augmentar la quantitat +1.
+                    throw new ExcepcionsPropies.LimitProductesException("No es pot afegir 2 textils amb el mateix codi de barres.");
+                } else {
+                    // Si el producte no existeix, afegir-lo amb una quantitat de 1
+                    mapTextilsDuplicats.put(producte.getCODI_DE_BARRES(), 1);
+                }
+            }
 
-            // Afegim el producte al diccionari de productes per veure els productes del carro i quants tenim
-            if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
-                // Si el producte ja existeix, augmentar la quantitat +1.
-                int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
-                mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
-            } else {
-                // Si el producte no existeix, afegir-lo amb una quantitat de 1
-                mapProductes.put(producte.getCODI_DE_BARRES(), 1);
+            if (mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
+                for (Producte producte2 : llistaProductes) {
+                    if (producte2.getCODI_DE_BARRES().equals(producte.getCODI_DE_BARRES())) {
+                        producte2.setQuantitat(producte2.getQuantitat() + 1);
+                        break;
+                    }
+                }
             }
+            else {
+                llistaProductes.add(producte);
+                mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
+            }
+
+
+
             System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
+            System.out.println();
+            llistaProductesCopia.add(producte);
 
         } catch (ExcepcionsPropies.LimitProductesException e) {
             System.out.println(e.getMessage());
@@ -124,6 +197,9 @@ public class CarroCompra {
     // Mètode per afegir un producte de alimentació a la llista de productes de alimentació
     public void escollirProducte() {
         try{
+            if (llistaProductes.size() >= CarroCompra.LIMIT_PRODUCTES) {
+                throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
+            }
             System.out.println();
 
             // Guardem la mida de la String text per que quedi nivellat amb els guions
@@ -231,7 +307,7 @@ public class CarroCompra {
             }
 
             afegirProducte(producte);
-            System.out.println("Producte "+nom+" amb codi de barres "+'\''+codiDeBarres+'\''+" afegit correctament");
+            System.out.println("Producte "+nom+" de tipus "+producte.getClass().getSimpleName()+" amb codi de barres "+'\''+codiDeBarres+'\''+" afegit correctament");
 
         } catch (InputMismatchException e) {
             System.out.println(e.getMessage());
@@ -242,14 +318,16 @@ public class CarroCompra {
         } catch (ExcepcionsPropies.negatiuException e) {
             System.out.println(e.getMessage());
             System.out.println("El producte no s'ha afegit. Torna a provar");
+        } catch (ExcepcionsPropies.LimitProductesException e) {
+            System.out.println(e.getMessage());
         }
     }
-
     //-----------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------------
     // Generem el codi de barres de forma aleatoria
-    public String generarCodiDeBarres(String nom) {
+    public static String generarCodiDeBarres(String nom) {
         // Guardem en aquesta variable un numero aleatori entre 100 i 999 perquè aixi tenim un codi de barres de 3 digits
         int numeroAleatori = random.nextInt(100,999);
 
@@ -280,10 +358,13 @@ public class CarroCompra {
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
-    private String buscaProducte(String codiProducte) {
-        Optional <Producte> producte = llistaProductes.stream().filter(p -> p.getCODI_DE_BARRES().equals(codiProducte)).findFirst();
-        return producte.get().getNom();
-    }
+    // Mètode per comparar els productes i ordenar-los segons el nom
+    Comparator<Producte> compareNom = new Comparator<Producte>() {
+        @Override
+        public int compare(Producte producte1, Producte producte2) {
+            return producte1.getNom().compareTo(producte2.getNom());
+        }
+    };
     //-----------------------------------------------------------------------------
 }
 
