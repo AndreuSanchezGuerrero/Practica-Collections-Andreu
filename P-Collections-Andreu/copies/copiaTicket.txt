@@ -4,48 +4,59 @@ Ticket de compra
 Categoria           Producte                 P. Unitari     P. Total
 --------------------------------------------------------------------
 Alimentacio         
-                    1    Cafèx1                   38,23        38,23
-                    2    Carnx1                   47,40        47,40
-                    3    Cervesax3                75,60       226,80
-                    4    Embotitsx1               24,27        24,27
-                    5    Formatgex2               23,15        46,30
-                    6    Fruitax2                 76,57       153,14
-                    7    Gelatx1                   4,25         4,25
-                    8    Licorx1                   8,20         8,20
-                    9    Lletx5                   11,64        58,21
-                    10   Olivesx6                 12,28        73,66
-                    11   Pax1                     50,13        50,13
-                    12   Paellax1                  1,05         1,05
-                    13   Pastax1                  87,16        87,16
-                    14   Peixx6                   65,90       395,42
-                    15   Salsitxesx3              73,67       221,02
-                    16   Tomàquetx3               33,07        99,20
-                    17   Tèx4                      3,20        12,79
-                    18   Verduresx3               14,84        44,52
-                    19   Vix2                     91,75       183,49
-                    20   Xaropx2                  80,93       161,85
-                    21   Xocolatax1                7,20         7,20
+                    1    Aiguax4                  14,95        59,79
+                    2    Cafèx3                   29,25        87,75
+                    3    Carnx3                   58,46       175,39
+                    4    Embotitsx2               16,58        33,15
+                    5    Formatgex2                0,30         0,60
+                    6    Fruitax1                 49,74        49,74
+                    7    Licorx1                  57,87        57,87
+                    8    Lletx2                   60,17       120,35
+                    9    Olivesx1                101,28       101,28
+                    10   Pax1                     60,80        60,80
+                    11   Paellax3                 93,13       279,40
+                    12   Pastax2                  92,70       185,40
+                    13   Patatesx1                34,17        34,17
+                    14   Peixx1                   81,47        81,47
+                    15   Pollastrex1              42,93        42,93
+                    16   Salsitxesx1              52,80        52,80
+                    17   Sucx1                    85,07        85,07
+                    18   Tomàquetx3               49,72       149,17
+                    19   Tèx1                     59,70        59,70
+                    20   Verduresx1               82,87        82,87
+                    21   Vix8                     21,70       173,60
+                    22   Xaropx3                  87,05       261,14
+                    23   Xocolatax4               41,13       164,51
 Electronica         
-                    1    Altaveux1                 38.0         38.0
-                    2    Auricularsx2            294,00       588,00
-                    3    Cablex2                 287,00       574,00
-                    4    Càmerax1                 58,00        58,00
-                    5    Disc durx1               78,00        78,00
-                    6    Dronex1                 200,00       200,00
-                    7    Hubx1                    49,00        49,00
-                    8    Mobilx1                 140,00       140,00
-                    9    Monitorx1                35,00        35,00
-                    10   O.Escriptorix2          147,00       294,00
-                    11   Portatilx1              195,00       195,00
-                    12   Ratolíx1                186,00       186,00
-                    13   Regletax1               214,00       214,00
-                    14   Routerx1                119,00       119,00
-                    15   Smartwatchx2            230,00       460,00
-                    16   Tabletx1                146,00       146,00
-                    17   Televisorx3             252,00       756,00
-                    18   Videocàmerax2           184,00       368,00
+                    1    Altaveux2                109.0        218.0
+                    2    Cablex2                 278,00       556,00
+                    3    Disc durx3               98,00       294,00
+                    4    Dronex1                  77,00        77,00
+                    5    Hubx2                   114,00       228,00
+                    6    Impressorax1             74,00        74,00
+                    7    O.Escriptorix2          101,00       202,00
+                    8    Portatilx1              117,00       117,00
+                    9    Ratolíx1                220,00       220,00
+                    10   Routerx3                254,00       762,00
+                    11   Smartwatchx1            240,00       240,00
+                    12   Tabletx2                 68,00       136,00
+                    13   Teclatx2                233,00       466,00
+                    14   Videocàmerax2           224,00       448,00
 Textil              
-                    1    Abricx1                   25.0         25.0
-                    2    Banyadorx1               32,00        32,00
-                    3    Batax1                   90,00        90,00
-                    4    Bufandax1                93,00        93,00
+                    1    Abricx1                   29.0         29.0
+                    2    Banyadorx1                8,00         8,00
+                    3    Batax1                   10,00        10,00
+                    4    Camisax1                 27,00        27,00
+                    5    Gorralx1                 83,00        83,00
+                    6    Guantsx1                  9,00         9,00
+                    7    Jerseix1                 46,00        46,00
+                    8    Mitjonsx1                70,00        70,00
+                    9    Pantalonsx1              48,00        48,00
+                    10   Pijamax1                 32,00        32,00
+                    11   Roba interiorx1          56,00        56,00
+                    12   Sabatesx1                79,00        79,00
+                    13   Sarongx1                 68,00        68,00
+                    14   Sostenidorx1             64,00        64,00
+                    15   Vestitx1                 68,00        68,00
+--------------------------------------------------------------------
+                                                      Total: 7133,96

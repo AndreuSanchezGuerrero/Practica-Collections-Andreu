@@ -455,7 +455,6 @@ public class CarroCompra {
                         System.out.println(text);
                         imprimirCopia(text);
                     }
-                    preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteE, producteE.getQuantitat()))));
                 } else if (centinela2.get()) {
                     System.out.println(String.format("%-20s", producteE.getClass().getSimpleName()));
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
@@ -507,7 +506,6 @@ public class CarroCompra {
                         System.out.println(text);
                         imprimirCopia(text);
                     }
-                    preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteT, producteT.getQuantitat()))));
                 }
                 else if (centinela3.get()) {
                     System.out.println(String.format("%-20s", producteT.getClass().getSimpleName()));
@@ -535,6 +533,9 @@ public class CarroCompra {
         if (finalCopiaTicket) {
             imprimirCopia(guions);
             imprimirCopia(String.format("%68s","Total: "+df.format(preuTotal.get())));
+            System.out.println(guions);
+            System.out.println(String.format("%68s","Total: "+df.format(preuTotal.get())));
+            System.out.println();
         }
         else {
             System.out.println(guions);
