@@ -72,7 +72,7 @@ public class OmplirCarretAutomaticament {
                 CarroCompra.llistaProductesCopia.add(producte);
             }
         } catch (ExcepcionsPropies.LimitProductesException e) {
-            System.out.println(e.getMessage());
+            CarroCompra.escriureLog(e.getMessage());
         }
 
     }
@@ -93,16 +93,17 @@ public class OmplirCarretAutomaticament {
                 codiDeBarres = getCodiDeBarres(nom);
                 composicioTextil = getComposicioTextil();
                 Producte producte = new Textil(nom, preu, codiDeBarres, Textil.enumCompositioTextil.valueOf(composicioTextil));
-
+                CarroCompra.comprovarPreuTextil(producte);
                 if (!CarroCompra.mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
                     CarroCompra.mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
                     llistaProductes.add(producte);
                 }
                 CarroCompra.llistaProductesCopia.add(producte);
 
+
             }
         } catch (ExcepcionsPropies.LimitProductesException e) {
-            System.out.println(e.getMessage());
+            CarroCompra.escriureLog(e.getMessage());
         }
     }
 
@@ -137,7 +138,7 @@ public class OmplirCarretAutomaticament {
 
             }
         } catch (ExcepcionsPropies.LimitProductesException e) {
-            System.out.println(e.getMessage());
+            CarroCompra.escriureLog(e.getMessage());
         }
 
     }

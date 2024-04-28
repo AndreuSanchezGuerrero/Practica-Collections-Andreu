@@ -40,7 +40,9 @@ public class Main {
                             carro.escollirProducte();
 
                             break;
-                        case 2: //compra.passarCaixa(); break;
+                        case 2:
+                            carro.generarTicketDeCompra();
+                            break;
                         case 3:
                             System.out.println();
                             carro.mostrarProductesCarret();
@@ -61,7 +63,7 @@ public class Main {
                 }
                 while (opcioMenuPrincipal != 0) ;
     } catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
+            CarroCompra.escriureLog(e.getMessage());
         }
 
     }
