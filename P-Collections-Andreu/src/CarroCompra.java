@@ -336,7 +336,31 @@ public class CarroCompra {
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------
-    public void generarTicketDeCompra() {
+    public void generarTicketDeCompra() throws IOException, FileNotFoundException {
+        boolean copiaTicket;
+        copiaTicket = false;
+        System.out.println("Voldrà copia? S/N");
+        Scanner input = new Scanner(System.in);
+        String copia = input.nextLine();
+        String arxiuNom;
+
+        if (copia.toUpperCase().equals("S")) {
+            File file = new File("./copies/copiaTicket.txt");
+            if (file.exists()) {
+                file.delete();
+            }
+            copiaTicket=true;
+            String guions = "-".repeat(68);
+            imprimirCopia(guions);
+            imprimirCopia("Ticket de compra");
+            imprimirCopia(guions);
+            imprimirCopia(String.format("%-20s%-25s%-10s%-5s%-8s", "Categoria", "Producte", "P. Unitari", "", "P. Total"));
+            imprimirCopia(guions);
+
+        } else {
+            copiaTicket = false;
+        }
+
         estilTicket();
         // Mostrar el carret de la compra amb lambda expresion.
         // String format igual que a estilMostrarProducte().
@@ -349,9 +373,38 @@ public class CarroCompra {
         AtomicBoolean centinela3 = new AtomicBoolean(true);
         AtomicInteger i = new AtomicInteger(1);
         AtomicReference<Float> preuTotal = new AtomicReference<>((float) 0);
+        boolean finalCopiaTicket = copiaTicket;
         llistaProductes.forEach((producteA) -> {
             if (producteA instanceof Alimentacio) {
-                if (centinela1.get()) {
+                if (finalCopiaTicket) {
+                    if (centinela1.get()) {
+                        String text = String.format("%-20s", producteA.getClass().getSimpleName());
+                        System.out.println(text);
+                        imprimirCopia(text);
+
+                        text = String.format("%-20s%-5s%-20s%10.02f%-5s%8.2f","",
+                                i.getAndIncrement(),
+                                producteA.getNom()+"x"+producteA.getQuantitat(),
+                                producteA.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteA, producteA.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                        centinela1.set(false);
+                    } else {
+                        String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
+                                "",
+                                i.getAndIncrement(),
+                                producteA.getNom()+"x"+producteA.getQuantitat(),
+                                producteA.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteA, producteA.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                    }
+                }
+
+                else if (centinela1.get()) {
                     System.out.println(String.format("%-20s", producteA.getClass().getSimpleName()));
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
@@ -376,7 +429,34 @@ public class CarroCompra {
         i.set(1);
         llistaProductes.forEach((producteE) -> {
             if (producteE instanceof Electronica) {
-                if (centinela2.get()) {
+                if (finalCopiaTicket) {
+                    if (centinela2.get()) {
+                        String text = String.format("%-20s", producteE.getClass().getSimpleName());
+                        System.out.println(text);
+                        imprimirCopia(text);
+
+                        text = String.format("%-20s%-5s%-20s%10s%-5s%8s","",
+                                i.getAndIncrement(),
+                                producteE.getNom()+"x"+producteE.getQuantitat(),
+                                producteE.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteE, producteE.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                        centinela2.set(false);
+                    } else {
+                        String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
+                                "",
+                                i.getAndIncrement(),
+                                producteE.getNom()+"x"+producteE.getQuantitat(),
+                                producteE.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteE, producteE.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                    }
+                    preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteE, producteE.getQuantitat()))));
+                } else if (centinela2.get()) {
                     System.out.println(String.format("%-20s", producteE.getClass().getSimpleName()));
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
@@ -401,7 +481,35 @@ public class CarroCompra {
         i.set(1);
         llistaProductes.forEach((producteT) -> {
             if (producteT instanceof Textil) {
-                if (centinela3.get()) {
+                if (finalCopiaTicket) {
+                    if (centinela3.get()) {
+                        String text = String.format("%-20s", producteT.getClass().getSimpleName());
+                        System.out.println(text);
+                        imprimirCopia(text);
+
+                        text = String.format("%-20s%-5s%-20s%10s%-5s%8s","",
+                                i.getAndIncrement(),
+                                producteT.getNom()+"x"+producteT.getQuantitat(),
+                                producteT.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteT, producteT.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                        centinela3.set(false);
+                    } else {
+                        String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
+                                "",
+                                i.getAndIncrement(),
+                                producteT.getNom()+"x"+producteT.getQuantitat(),
+                                producteT.calcularPreu(),
+                                "",
+                                calcularPreuTotal(producteT, producteT.getQuantitat()));
+                        System.out.println(text);
+                        imprimirCopia(text);
+                    }
+                    preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteT, producteT.getQuantitat()))));
+                }
+                else if (centinela3.get()) {
                     System.out.println(String.format("%-20s", producteT.getClass().getSimpleName()));
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
@@ -424,9 +532,15 @@ public class CarroCompra {
             }
         });
         String guions = "-".repeat(68);
-        System.out.println(guions);
-        System.out.println(String.format("%68s","Total: "+df.format(preuTotal.get())));
-
+        if (finalCopiaTicket) {
+            imprimirCopia(guions);
+            imprimirCopia(String.format("%68s","Total: "+df.format(preuTotal.get())));
+        }
+        else {
+            System.out.println(guions);
+            System.out.println(String.format("%68s","Total: "+df.format(preuTotal.get())));
+            System.out.println();
+        }
     }
 
     public void estilTicket() {
@@ -553,8 +667,30 @@ public class CarroCompra {
         // Imprimir el mensaje de log en la consola
         System.out.println(logMessage);
     }
-
-
     // -----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    private void imprimirCopia(String text) {
+
+        String directoriNom = "copies";
+        String arxiu = "copiaTicket.txt";
+
+        File directori = new File(directoriNom);
+        if (!directori.exists()) {
+            directori.mkdirs(); // Crea los directorios necesarios
+        }
+
+        // Formatear el mensaje de log
+        String message = text;
+
+        // Escribir en el archivo de log
+        try (PrintWriter writer = new PrintWriter(new FileWriter(directori + File.separator + arxiu, true))) {
+            writer.println(message);
+            writer.close();
+        } catch (IOException e) {
+            e.getMessage(); // Manejar el error de escritura
+        }
+    }
+    //-----------------------------------------------------------------------------
 }
 

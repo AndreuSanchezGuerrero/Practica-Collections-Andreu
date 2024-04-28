@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Main {
@@ -64,6 +66,10 @@ public class Main {
                 while (opcioMenuPrincipal != 0) ;
     } catch (InputMismatchException e) {
             CarroCompra.escriureLog(e.getMessage());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }

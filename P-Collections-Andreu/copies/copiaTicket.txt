@@ -1,0 +1,51 @@
+--------------------------------------------------------------------
+Ticket de compra
+--------------------------------------------------------------------
+Categoria           Producte                 P. Unitari     P. Total
+--------------------------------------------------------------------
+Alimentacio         
+                    1    Cafèx1                   38,23        38,23
+                    2    Carnx1                   47,40        47,40
+                    3    Cervesax3                75,60       226,80
+                    4    Embotitsx1               24,27        24,27
+                    5    Formatgex2               23,15        46,30
+                    6    Fruitax2                 76,57       153,14
+                    7    Gelatx1                   4,25         4,25
+                    8    Licorx1                   8,20         8,20
+                    9    Lletx5                   11,64        58,21
+                    10   Olivesx6                 12,28        73,66
+                    11   Pax1                     50,13        50,13
+                    12   Paellax1                  1,05         1,05
+                    13   Pastax1                  87,16        87,16
+                    14   Peixx6                   65,90       395,42
+                    15   Salsitxesx3              73,67       221,02
+                    16   Tomàquetx3               33,07        99,20
+                    17   Tèx4                      3,20        12,79
+                    18   Verduresx3               14,84        44,52
+                    19   Vix2                     91,75       183,49
+                    20   Xaropx2                  80,93       161,85
+                    21   Xocolatax1                7,20         7,20
+Electronica         
+                    1    Altaveux1                 38.0         38.0
+                    2    Auricularsx2            294,00       588,00
+                    3    Cablex2                 287,00       574,00
+                    4    Càmerax1                 58,00        58,00
+                    5    Disc durx1               78,00        78,00
+                    6    Dronex1                 200,00       200,00
+                    7    Hubx1                    49,00        49,00
+                    8    Mobilx1                 140,00       140,00
+                    9    Monitorx1                35,00        35,00
+                    10   O.Escriptorix2          147,00       294,00
+                    11   Portatilx1              195,00       195,00
+                    12   Ratolíx1                186,00       186,00
+                    13   Regletax1               214,00       214,00
+                    14   Routerx1                119,00       119,00
+                    15   Smartwatchx2            230,00       460,00
+                    16   Tabletx1                146,00       146,00
+                    17   Televisorx3             252,00       756,00
+                    18   Videocàmerax2           184,00       368,00
+Textil              
+                    1    Abricx1                   25.0         25.0
+                    2    Banyadorx1               32,00        32,00
+                    3    Batax1                   90,00        90,00
+                    4    Bufandax1                93,00        93,00
