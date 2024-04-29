@@ -12,7 +12,7 @@ public class OmplirCarretAutomaticament {
     private Random random;
     private String codiDeBarres;
 
-
+// LListes de productes i composicions dels textils
     public OmplirCarretAutomaticament() {
         productesAlimentacio = new ArrayList<>(Arrays.asList(
                 "Pa", "Formatge", "Olives", "Tomàquet", "Patates", "Pasta", "Carn", "Peix",
@@ -40,7 +40,9 @@ public class OmplirCarretAutomaticament {
         random = new Random();
     }
 
+    // Metode per omplir el carret de aliments
     public void omplirCarretDeAliments(ArrayList<Producte> llistaProductes) {
+        // Declaracio de variables
         String nom;
         float preu;
         String codiDeBarres;
@@ -48,15 +50,18 @@ public class OmplirCarretAutomaticament {
         try {
             // Fem 25 aleatoris
             for (int i = 0; i < 25; i++) {
+                // Comprovem que no hi hagin més de 100 productes, si ho es llencem una excepció + log
                 if (CarroCompra.llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
                     throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
                 }
 
-                // Creem el producte
+                // Creem el producte cridant a les funcions per crear els atributs
                 nom = getNomAlimentacio();
                 preu = generarPreuAleatori(1, 100);
                 codiDeBarres = getCodiDeBarres(nom);
                 dataCaducitat = getDataCaducitatSTR();
+
+                // Creem el producte i comprovem si existeix o no per cambiarli la quantitat
                 Producte producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
                 if (CarroCompra.mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
                     for (Producte producte2 : llistaProductes) {
@@ -66,6 +71,7 @@ public class OmplirCarretAutomaticament {
                         }
                     }
                 }
+                // Si no existeix l'afegim
                 else {
                     llistaProductes.add(producte);
                     CarroCompra.mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
@@ -79,21 +85,27 @@ public class OmplirCarretAutomaticament {
     }
 
     public void omplirCarretDeTextils(ArrayList<Producte> llistaProductes) {
+        // Declaracio de variables
         String nom;
         float preu;
         String codiDeBarres;
         String composicioTextil;
         try {
+            // Fem 25 aleatoris
             for (int i = 0; i < 25; i++) {
+                // Comprovem que no hi hagin més de 100 productes, si ho es llencem una excepció + log
                 if (CarroCompra.llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
                     throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
                 }
 
+                // Creem el producte cridant a les funcions per crear els atributs
                 nom = getNomTextils();
                 preu = generarPreuAleatori(1, 100);
                 codiDeBarres = getCodiDeBarres(nom);
                 composicioTextil = getComposicioTextil();
+                // Creem el producte i nomes l'afegim si no existeix
                 Producte producte = new Textil(nom, preu, codiDeBarres, Textil.enumCompositioTextil.valueOf(composicioTextil));
+                // Actualitzem els productes textils
                 CarroCompra.comprovarPreuTextil(producte);
                 if (!CarroCompra.mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
                     CarroCompra.mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
@@ -109,18 +121,25 @@ public class OmplirCarretAutomaticament {
     }
 
     public void omplirCarretDeElectronics(ArrayList<Producte> llistaProductes) {
+
+        // Declaracio de variables
         String nom;
         float preu;
         String codiDeBarres;
         try {
+            // Fem 25 aleatoris
             for (int i = 0; i < 25; i++) {
+                // Comprovem que no hi hagin més de 100 productes, si ho es llencem una excepció + log
                 if (CarroCompra.llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
                     throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
                 }
 
+                // Creem el producte cridant a les funcions per crear els atributs
                 nom = getNomElectronics();
                 preu = generarPreuAleatori(30, 300);
                 codiDeBarres = getCodiDeBarres(nom);
+
+                // Creem el producte i comprovem si existeix o no per cambiarli la quantitat
                 Producte producte = new Electronica(nom, preu, codiDeBarres, generarNumAleatori(30,100));
                 if (CarroCompra.mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
                     for (Producte producte2 : llistaProductes) {
@@ -130,12 +149,12 @@ public class OmplirCarretAutomaticament {
                         }
                     }
                 }
+                // Si no existeix l'afegim
                 else {
                     llistaProductes.add(producte);
                     CarroCompra.mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
                 }
-
-
+                CarroCompra.llistaProductesCopia.add(producte);
 
             }
         } catch (ExcepcionsPropies.LimitProductesException e) {

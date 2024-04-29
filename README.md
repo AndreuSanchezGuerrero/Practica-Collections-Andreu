@@ -317,3 +317,17 @@ mostrarPreuTotal -> Fem un recorregut de la llista i mostrem el preu total.
 escriureLog -> Passem el missatge i el sobreescrivim al l'arxiu de logs. Si no existeix, el creem nosaltres.
 
 imprimirCopia -> Lo mateix que al de escriureLog, pero en un altre fitxer. Anem passant missatges i els anem escrivint amb el format que li donem amb String format.
+
+
+
+## Classe OmplirCarretAutomaticament
+
+Classe per omplir el carret automaticament.
+- Tenim les llistes aleatories.
+- Tenim mètodes per agafar aleatoriament noms dels productes i composicions dels textils.
+- Convertim la seva mida en un int i agafem un numero random entre 0 i la mida. D'aquesta manera tenim un producte aleatori de la llista.
+- Creem els productes aleatoris.
+
+## Classe Main.
+Creem un carro i fem la crida de totes les funcions anteriors.
+  

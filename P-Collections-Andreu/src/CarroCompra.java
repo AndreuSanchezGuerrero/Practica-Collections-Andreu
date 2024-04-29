@@ -305,7 +305,7 @@ public class CarroCompra {
                 composicioTextil = input.next().toUpperCase();
 
                 // Comprovem que la composicio sigui correcta
-                if (!llistaEnumCompositioTextil.contains(Textil.enumCompositioTextil.valueOf(composicioTextil))) {
+                if (!llistaEnumCompositioTextil.contains((composicioTextil))) {
                     throw new ExcepcionsPropies.enumFailException("Composicio no valida. S'esperava una de les seguents composicions: COTO, POLIESTER, LLI, SEDA, LLANA o NILO.");
                 }
 
@@ -316,7 +316,6 @@ public class CarroCompra {
             afegirProducte(producte);
             System.out.println();
             System.out.println("Producte "+nom+" de tipus "+producte.getClass().getSimpleName()+" amb codi de barres "+'\''+codiDeBarres+'\''+" afegit correctament");
-
         } catch (InputMismatchException e) {
             System.out.println(e.getMessage());
             escriureLog(e.getMessage());
@@ -749,11 +748,12 @@ public class CarroCompra {
     // -------------------------------------------------------------------------------------------------
     // Fem recorregut dels productes per mostrar el preu total
     public void mostrarPreuTotal() {
+        DecimalFormat df = new DecimalFormat("0.00");
         AtomicReference<Float> preuTotal = new AtomicReference<>((float) 0);
         llistaProductes.forEach((producte) -> {
                 preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producte, producte.getQuantitat()))));
         });
-        System.out.println("Actualment tens en el carret: " + preuTotal.get());
+        System.out.println("Actualment tens en el carret: " + df.format(preuTotal.get())+"€");
     }
     //------------------------------------------------------------------------------------------------
 

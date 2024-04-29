@@ -1,0 +1,52 @@
+--------------------------------------------------------------------
+Ticket de compra
+--------------------------------------------------------------------
+Categoria           Producte                 P. Unitari     P. Total
+--------------------------------------------------------------------
+Alimentacio         
+                    1    Aigua x 2                 3,20         6,40
+                    2    Cafè x 2                 60,55       121,09
+                    3    Carn x 3                 66,13       198,40
+                    4    Embotits x 2             21,35        42,71
+                    5    Pasta x 1                 6,36         6,36
+                    6    Patates x 1             102,90       102,90
+                    7    Peix x 2                 92,52       185,03
+                    8    Pollastre x 1            76,73        76,73
+                    9    Salsitxes x 3            24,55        73,66
+                    10   Suc x 1                  20,40        20,40
+                    11   Tè x 2                   70,83       141,66
+                    12   Verdures x 1              9,60         9,60
+                    13   Xarop x 2                 6,00        12,00
+                    14   Xocolata x 2             47,00        94,00
+Electronica         
+                    1    Cable x 4                267.0       1068.0
+                    2    Càmera x 2              224,00       448,00
+                    3    Disc dur x 1            236,00       236,00
+                    4    Drone x 1               109,00       109,00
+                    5    Impressora x 1          189,00       189,00
+                    6    Mobil x 1                45,00        45,00
+                    7    Monitor x 2             281,00       562,00
+                    8    O.Escriptori x 1        109,00       109,00
+                    9    Portatil x 2             79,00       158,00
+                    10   Ratolí x 2              106,00       212,00
+                    11   Regleta x 1             180,00       180,00
+                    12   Router x 2              150,00       300,00
+                    13   Smartwatch x 1           85,00        85,00
+                    14   Switch x 1              240,00       240,00
+                    15   Teclat x 2              236,00       472,00
+                    16   Televisor x 1           174,00       174,00
+Textil              
+                    1    Banyador x 1               1.0          1.0
+                    2    Bufanda x 1              61,00        61,00
+                    3    Camisa x 1               17,00        17,00
+                    4    Gorral x 1               50,00        50,00
+                    5    Guants x 1               10,00        10,00
+                    6    Jersei x 1               99,00        99,00
+                    7    Mitjons x 1              59,00        59,00
+                    8    Pantalons x 1            21,00        21,00
+                    9    Pijama x 1               37,00        37,00
+                    10   Roba interior x 1         6,00         6,00
+                    11   Sarong x 1               70,00        70,00
+                    12   Vestit x 1               45,00        45,00
+--------------------------------------------------------------------
+                                                      Total: 6153,94
