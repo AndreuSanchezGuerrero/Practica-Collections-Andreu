@@ -13,10 +13,13 @@ import java.util.regex.Pattern;
 
 public class CarroCompra {
     Scanner input = new Scanner(System.in);
-    // Dades globals
-    // Llista de productes per calcular el preu
+
+    // Llista de productes
     protected static ArrayList<Producte> llistaProductes;
 
+    // Llistes de productes en la que no farem cas a la quantitat i afegirem sempre el producte com a independent,
+    // així podem veure la mesura de la llista i si ja té 100 productes afegits. De no fer aquesta copia, no calcularà bé si
+    // tenim 100 productes
     protected static ArrayList<Producte> llistaProductesCopia;
 
     //Diccionari que farem servir per crear un codi de barres aleatori

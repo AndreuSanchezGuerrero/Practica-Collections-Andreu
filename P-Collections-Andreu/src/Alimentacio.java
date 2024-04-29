@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Alimentacio extends Producte {
+public class Alimentacio extends Producte implements Comparable<Alimentacio> {
     private String DATACADUCITAT; // dd-mm-yyyy
     Scanner scan = new Scanner(System.in);
 
@@ -52,4 +52,14 @@ public class Alimentacio extends Producte {
                 "}";
     }
     //------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    // Metode de comparació
+    // La classe String ja te un mètode de comparació per default.
+    // Només hem de cridar al mètode de comparació (compareTo) per comparar dos strings
+    @Override
+    public int compareTo(Alimentacio a1) {
+        return this.getNom().compareTo(a1.getNom());
+    }
+    //-----------------------------------------------------------------------------
 }

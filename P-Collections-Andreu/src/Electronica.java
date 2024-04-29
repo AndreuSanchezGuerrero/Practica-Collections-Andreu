@@ -1,4 +1,4 @@
-public class Electronica extends Producte {
+public class Electronica extends Producte implements Comparable<Electronica> {
     int diesGarantia;
 
     //-----------------------------------------------------------------------------
@@ -48,4 +48,14 @@ public class Electronica extends Producte {
                 "}";
     }
     //-----------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------
+    // Metode de comparació
+    // La classe String ja te un mètode de comparació per default.
+    // Només hem de cridar al mètode de comparació (compareTo) per comparar dos strings
+    @Override
+    public int compareTo(Electronica e1) {
+        return this.getNom().compareTo(e1.getNom());
+    }
+    // ----------------------------------------------------------------------------
 }

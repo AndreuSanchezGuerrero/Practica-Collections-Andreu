@@ -84,6 +84,15 @@ Important:
     }
   ````
 
+  - Ordenem per nom amb l'interface comarable.
+  
+  ````java
+    @Override
+    public int compareTo(Alimentacio a1) {
+        return this.getNom().compareTo(a1.getNom());
+    }
+  ````
+
 ## Suclasse de Producte 'Textil'
  
 - La variable composicioTextil serà un enum, per fer ja directament el control d'errors i no haber de fer una llista amb els tipus de composició tèxtil.
@@ -110,6 +119,15 @@ public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
 
 ````
 - Composició tèxtil tindrà el seu setter per poder cambiarla.
+
+- Orndenem els productes per composició textil, per aixo farem servir l'interface compareTo().
+  ````java
+   @Override
+    public int compareTo(Textil t1) {
+        // String ja implementa l'interface compareTo i la fem servir.
+        return this.getComposicioTextil().compareTo(t1.getComposicioTextil());
+    }
+  ````
     
 ## Suclasse de Producte 'Electronica'
 
@@ -133,39 +151,45 @@ public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
     }  
 ````
 
-- En el main ja comprovarem si l'usuari no ha posat un Integer amb l'error InputMismatchException.
+- Ordenem els productes de electronica per nom amb l'inteface comparable.
+  
+  ````java
+      @Override
+    public int compareTo(Electronica e1) {
+        return this.getNom().compareTo(e1.getNom());
+    }
+  ````
   
 ## Classe CarroCompra
 
 - Classe important on definirem tots els mètodes i funcions amb els quals omplirem el main, de forma que en el main només tinguem les opcions a escollir.
 
-- **En aquest context no necessitem operacions específiques de LinkedList, com ara la inserció o eliminació enmig de la llista, i atès que accedirem als elements de manera seqüencial, ArrayList sembla l'opció més adequada. A més, ArrayList ofereix un accés més ràpid als elements mitjançant índexs. Per això calcularem el preu amb arraylist.**
+- **En aquest context no necessitem operacions específiques de LinkedList, com ara la inserció o eliminació enmig de la llista, i atès que accedirem als elements de manera seqüencial, ArrayList sembla l'opció més adequada. A més, ArrayList ofereix un accés més ràpid als elements mitjançant índexs.**
   
+**<u>Variables</u>**
+
+- Llista on tindrem l'informació de tots els productes.
+
 ````java
-    Scanner input = new Scanner(System.in);
-    // Dades globals
-    // Llista de productes per calcular el preu
-    private ArrayList<Producte> llistaProductes;
-
-    // Diccionari per veure els productes del carro
-    private HashMap<String, Integer> mapProductes;
-
-    //Diccionari que farem servir per crear un codi de barres aleatori
-    private static HashMap<String, String> nomYCodigsProductes;
-    private static Random random;
-
-    //-----------------------------------------------------------------------------
-    // Constructor
-    public CarroCompra() {
-        nomYCodigsProductes= new HashMap<>();
-        random = new Random();
-        mapProductes = new HashMap<>();
-        llistaProductes = new ArrayList<Producte>();
-    }
-    //-----------------------------------------------------------------------------
+        // Llista de productes
+    protected static ArrayList<Producte> llistaProductes;
 ````
 
--**Farem dos hasmap. Un per crear aleatoriament el codi de barres i un per mostrar el carret**
+- Llista de productes en la que no farem cas a la quantitat i afegirem tots els productes com a independents, així podem veure la mesura de la llista i si ja té 100 productes afegits. De no fer aquesta copia, no calcularà bé si tenim 100 productes, o hariem de fer un for amb la llista de productes principal i calcular la quantitat. És més eficient fer un arraylist ja que 100 productes no son masses.
+
+````java
+        // Llista de productes de control
+    protected static ArrayList<Producte> llistaProductesCopia;
+````
+
+- Tindrem una variable per controlar el limit de productes de una manera més intuitiva.
+
+````java
+    // Variable constant que limita el nombre de productes
+    static int LIMIT_PRODUCTES = 100;
+````
+
+- Hashmap per controlar que no hi hagin més téxtils 
 
 - generarCodiDeBarres(String nom) -> Mètode per crear aleatoriament el codi de barres fent servir el hasmap nomYCodigsProductes.
 
