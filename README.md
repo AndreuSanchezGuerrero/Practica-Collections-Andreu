@@ -166,7 +166,7 @@ public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
 
 - **En aquest context no necessitem operacions específiques de LinkedList, com ara la inserció o eliminació enmig de la llista, i atès que accedirem als elements de manera seqüencial, ArrayList sembla l'opció més adequada. A més, ArrayList ofereix un accés més ràpid als elements mitjançant índexs.**
   
-**<u>Variables</u>**
+### **<u>Variables</u>**
 
 - Llista on tindrem l'informació de tots els productes.
 
@@ -189,28 +189,77 @@ public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
     static int LIMIT_PRODUCTES = 100;
 ````
 
-- Hashmap per controlar que no hi hagin més téxtils 
-
-- generarCodiDeBarres(String nom) -> Mètode per crear aleatoriament el codi de barres fent servir el hasmap nomYCodigsProductes.
+- Hashmap per controlar que no hi hagin téxtils amb el mateix codi de barres. Es controla més ràpid així que fent un for a la llista general.
 
 ````java
-
-    // Generem el codi de barres de forma aleatoria
-    public String generarCodiDeBarres(String nom) {
-        // Guardem en aquesta variable un numero aleatori entre 100 i 999 perquè aixi tenim un codi de barres de 3 digits
-        int numeroAleatori = random.nextInt(100,999);
-
-        // Concatenem el nom del producte amb el numero aleatori
-        String codiDeBarresFinal = nom + "-" + String.valueOf(numeroAleatori);
-        return codiDeBarresFinal;
-    }
-    
+    // Diccionari que ferem servir per veure si tenim més de dos productes textils amb el mateix codi de barres
+    private HashMap<String, Integer> mapTextilsDuplicats;
 ````
+
+
+- Hasmap que farem servir per crear codis de barres automàticament, més endevant ho veiem.
+  
+````java
+  //Diccionari que farem servir per crear un codi de barres aleatori
+    protected static HashMap<String, String> nomYCodigsProductes;
+    private static Random random;
+````
+
+- Hasmap per veure si ja em introduit previament un producte i després sumar 1 a la quantitat del producte. Amb aquest hasmap evitem fer treballar més de la compta a la màquina, perquè evitem estar fent un for per a cada producte, aixì solament fem el for si el producte ja existeix.
+
+````java
+   // Diccionari que ferem servir per veure si tenim més de dos productes de la mateixa categoria amb el mateix codi de barres
+    protected static HashMap<String, Integer> mapProductesJaIntroduits;
+````
+
+### **<u> Métodes </u>**
+
+**Bloc 1**
+
+saludar() -> L'aplicació ens saludarà en funció de l'hora que sigui.  
+    
+    1. La aplicació ens dirà 'bon dia', 'bona tarda' o 'bonanit' en funció de l'hora que sigui.
+    2. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit. 
+
+menu1() -> Ens saluda i ens mostre les opcions que podem escollir.
+
+**Bloc 2**
+   
+generarCodiDeBarres(String nom) -> Mètode per crear aleatoriament el codi de barres fent servir el hasmap nomYCodigsProductes.
+    - Li passem un nom i segons el nom ens farà un número random de 3 xifres.
+    - Format del codi: nom-3digits.
+    - *Si el nom ja existeix, li dona el mateix codi de barres*
+
+Comprovació a l'hora de crear un producte.
+````java
+            // Comprovem si el nom ja ha sortit previament.
+            // Si no ha sortit generem un codi de barres.
+            // Si ja ha sortit, agafim el codi de barres ja generat previament per aquest nom.
+            if (nomYCodigsProductes.containsKey(nom)) {
+                codiDeBarres = nomYCodigsProductes.get(nom);
+            } else {
+                codiDeBarres= generarCodiDeBarres(nom);
+                nomYCodigsProductes.put(nom, codiDeBarres);
+            }
+````
+
+**Bloc 3**
+Mètodes per controlar entrada d'usuari
+
+comprovarDataCaducitat -> Regex per controlar que sigui una data a partir de 2024.
+
+dataCaducitatEsMenorQueDataActual -> Torna true si es menor que la data actual, per lo tant està malament introduida.
+
+comprovarPreuTextil -> Li pasem un producte i mirem si el codi de barres coincideix amb el de l'arxiu updates, si coicideix, actualitzarem el preu base.
+
+
+**Bloc 4**
 
 - afegirProducte(Alimentacio Producte) -> Mètode per afegir un producte a la llista de productes i al mapa de productes que el necessitarem per fer un recorregut del carro.
       1. Afegim el producte a la llista de productes, ho necessitarem per calcular el preu de tot el carret.
       2. Afegim el producte al diccionari de productes, ho necessitarem més endevant per veure els productes del carro i quants tenim amb el mateix codi de barres.
-  
+
+
 ````java
 
     public void afegirProducte(Alimentacio producte) {
@@ -231,30 +280,12 @@ public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
     }
 ````
 
-- Mètode saludar()
   
-    1. La aplicació ens dirà 'bon dia', 'bona tarda' o 'bonanit' en funció de l'hora que sigui.
-    2. La formula es la seguent: (Si es després de les 06:00h i abans de les 14:00h) direm bon dia, (si es després de les 14:00h abans de les 20.00h) direm bona tarda y (si es després de les 20:00h i abans de les 06:00) direm bona nit. 
+   
 
-````java
-    public String saludar() {
-        // Obtenir l'hora actual
-        LocalTime horaActual = LocalTime.now();
 
-        // Saludar en funció de l'hora
-        String saludar;
-        if (horaActual.isBefore(LocalTime.of(14, 0)) && horaActual.isAfter(LocalTime.of(06, 0))) {
-            saludar = "Bon dia";
-        } else if (horaActual.isBefore(LocalTime.of(20, 0))&& horaActual.isAfter(LocalTime.of(14, 0))) {
-            saludar = "Bona tarda";
-        } else {
-            saludar = "Bona nit";
-        }
-        return saludar;
-    }
-````
 
-- menu1() -> Mostrem les opcions que podem escollir. Aquesta funció s'executarà des de el main.
+
 
 ````java
     // Metode per mostrar el menu principal
