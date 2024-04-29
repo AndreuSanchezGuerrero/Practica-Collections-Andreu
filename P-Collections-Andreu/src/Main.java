@@ -40,6 +40,7 @@ public class Main {
 
                             // Comprovem que no hi hagin més de 100 productes al carret
                             carro.escollirProducte();
+                            System.out.println();
 
                             break;
                         case 2:
@@ -51,16 +52,21 @@ public class Main {
                             System.out.println();
                             break;
                         case 4:
+                            System.out.println();
                             OmplirCarretAutomaticament omplir = new OmplirCarretAutomaticament();
                             omplir.omplirCarretDeAliments(CarroCompra.llistaProductes);
                             omplir.omplirCarretDeTextils(CarroCompra.llistaProductes);
                             omplir.omplirCarretDeElectronics(CarroCompra.llistaProductes);
+                            System.out.println("Carret omplit correctament");
+                            System.out.println();
                             break;
                         case 5:
                             System.out.println();
                             carro.mostrarPreuTotal();
+                            System.out.println();
                             break;
                         case 0:
+                            System.out.println();
                             System.out.println("Gràcies per la seva visita");
                             break;
                         default:
@@ -71,8 +77,10 @@ public class Main {
     } catch (InputMismatchException e) {
             CarroCompra.escriureLog(e.getMessage());
         } catch (FileNotFoundException e) {
+            CarroCompra.escriureLog(e.getMessage());
             throw new RuntimeException(e);
         } catch (IOException e) {
+            CarroCompra.escriureLog(e.getMessage());
             throw new RuntimeException(e);
         }
 

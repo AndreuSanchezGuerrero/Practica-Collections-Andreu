@@ -65,6 +65,7 @@ public class CarroCompra {
         System.out.println("(2) Passar per caixa");
         System.out.println("(3) Mostar carret de compra");
         System.out.println("(4) Omplir carret de productes random");
+        System.out.println("(5) Mostar preu total actualment");
         System.out.println("(0) Acabar");
         System.out.println();
         System.out.print("Escull una opció: ");
