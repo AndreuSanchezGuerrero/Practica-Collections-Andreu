@@ -4,49 +4,56 @@ Ticket de compra
 Categoria           Producte                 P. Unitari     P. Total
 --------------------------------------------------------------------
 Alimentacio         
-                    1    Aigua x 2                 3,20         6,40
-                    2    Cafè x 2                 60,55       121,09
-                    3    Carn x 3                 66,13       198,40
-                    4    Embotits x 2             21,35        42,71
-                    5    Pasta x 1                 6,36         6,36
-                    6    Patates x 1             102,90       102,90
-                    7    Peix x 2                 92,52       185,03
-                    8    Pollastre x 1            76,73        76,73
-                    9    Salsitxes x 3            24,55        73,66
-                    10   Suc x 1                  20,40        20,40
-                    11   Tè x 2                   70,83       141,66
-                    12   Verdures x 1              9,60         9,60
-                    13   Xarop x 2                 6,00        12,00
-                    14   Xocolata x 2             47,00        94,00
+                    1    Aigua x 1                 9,75         9,75
+                    2    Carn x 7                 93,60       655,20
+                    3    Cervesa x 1              64,66        64,66
+                    4    Croissant x 4             1,87         7,47
+                    5    Embotits x 2             95,79       191,58
+                    6    Formatge x 3             76,32       228,96
+                    7    Fruita x 1               75,90        75,90
+                    8    Licor x 3                13,22        39,65
+                    9    Llet x 2                 45,35        90,69
+                    10   Olives x 1               65,93        65,93
+                    11   Pa x 2                   75,61       151,23
+                    12   Paella x 4               59,66       238,63
+                    13   Pasta x 2                99,90       199,80
+                    14   Peix x 1                 54,90        54,90
+                    15   Pollastre x 3             7,20        21,60
+                    16   Salsitxes x 1            90,46        90,46
+                    17   Tomàquet x 2             21,86        43,73
+                    18   Verdures x 2             34,47        68,93
+                    19   Vi x 2                   56,47       112,94
+                    20   Xarop x 2                16,15        32,29
+                    21   Xocolata x 4             88,00       352,00
 Electronica         
-                    1    Cable x 4                267.0       1068.0
-                    2    Càmera x 2              224,00       448,00
-                    3    Disc dur x 1            236,00       236,00
-                    4    Drone x 1               109,00       109,00
-                    5    Impressora x 1          189,00       189,00
-                    6    Mobil x 1                45,00        45,00
-                    7    Monitor x 2             281,00       562,00
-                    8    O.Escriptori x 1        109,00       109,00
-                    9    Portatil x 2             79,00       158,00
-                    10   Ratolí x 2              106,00       212,00
-                    11   Regleta x 1             180,00       180,00
-                    12   Router x 2              150,00       300,00
-                    13   Smartwatch x 1           85,00        85,00
-                    14   Switch x 1              240,00       240,00
-                    15   Teclat x 2              236,00       472,00
-                    16   Televisor x 1           174,00       174,00
+                    1    Altaveu x 2               95.0        190.0
+                    2    Càmera x 2               46,00        92,00
+                    3    Disc dur x 1            234,00       234,00
+                    4    Hub x 1                 258,00       258,00
+                    5    Mobil x 1               288,00       288,00
+                    6    Monitor x 3             138,00       414,00
+                    7    O.Escriptori x 3         96,00       288,00
+                    8    Router x 3               33,00        99,00
+                    9    Smartwatch x 1          203,00       203,00
+                    10   Tablet x 2              263,00       526,00
+                    11   Teclat x 2               45,00        90,00
+                    12   Televisor x 3            61,00       183,00
+                    13   Videocàmera x 1         205,00       205,00
 Textil              
-                    1    Banyador x 1               1.0          1.0
-                    2    Bufanda x 1              61,00        61,00
-                    3    Camisa x 1               17,00        17,00
-                    4    Gorral x 1               50,00        50,00
-                    5    Guants x 1               10,00        10,00
-                    6    Jersei x 1               99,00        99,00
-                    7    Mitjons x 1              59,00        59,00
-                    8    Pantalons x 1            21,00        21,00
-                    9    Pijama x 1               37,00        37,00
-                    10   Roba interior x 1         6,00         6,00
-                    11   Sarong x 1               70,00        70,00
-                    12   Vestit x 1               45,00        45,00
+                    1    Abric x 1                 11.0         11.0
+                    2    Banyador x 1             39,00        39,00
+                    3    Bufanda x 1              21,00        21,00
+                    4    Camisa x 1               20,00        20,00
+                    5    Gorral x 1               37,00        37,00
+                    6    Guants x 1               49,00        49,00
+                    7    Mitjons x 1              50,00        50,00
+                    8    Pantalons x 1             7,00         7,00
+                    9    Pijama x 1               31,00        31,00
+                    10   Roba interior x 1        94,00        94,00
+                    11   Sabates x 1              96,00        96,00
+                    12   Samarreta x 1            73,00        73,00
+                    13   Sarong x 1               25,00        25,00
+                    14   Sostenidor x 1           85,00        85,00
+                    15   Vestit x 1               50,00        50,00
 --------------------------------------------------------------------
-                                                      Total: 6153,94
+                                                      Total: 6554,31

@@ -17,6 +17,8 @@ public class Main {
                 // (1) Introduir producte);
                 // (2) Passar per caixa;
                 // (3) Mostar carret de compra;
+                // (4) Omplir carret de productes random;
+                // (5) Mostar preu total actualment;
                 // (0) Acabar;
                 carro.menu1();
 
@@ -45,6 +47,9 @@ public class Main {
                             break;
                         case 2:
                             carro.generarTicketDeCompra();
+                            carro.buidarCarret();
+                            System.out.println("Carret buit correctament");
+                            System.out.println();
                             break;
                         case 3:
                             System.out.println();
