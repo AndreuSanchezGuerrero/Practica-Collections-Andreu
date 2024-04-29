@@ -27,8 +27,8 @@ public class Main {
                     throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
                 }
                 opcioMenuPrincipal = input.nextInt();
-                while (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 4) {
-                    System.out.println("L'entrada ha de ser un enter entre 0 i 4, torna a provar.");
+                while (opcioMenuPrincipal < 0 || opcioMenuPrincipal > 5) {
+                    System.out.println("L'entrada ha de ser un enter entre 0 i 5, torna a provar.");
                     opcioMenuPrincipal = input.nextInt();
 
                     if (!input.hasNextInt()) {
@@ -55,6 +55,10 @@ public class Main {
                             omplir.omplirCarretDeAliments(CarroCompra.llistaProductes);
                             omplir.omplirCarretDeTextils(CarroCompra.llistaProductes);
                             omplir.omplirCarretDeElectronics(CarroCompra.llistaProductes);
+                            break;
+                        case 5:
+                            System.out.println();
+                            carro.mostrarPreuTotal();
                             break;
                         case 0:
                             System.out.println("Gràcies per la seva visita");

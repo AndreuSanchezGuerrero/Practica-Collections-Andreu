@@ -169,7 +169,8 @@ public class CarroCompra {
     // Mètode per afegir un producte de alimentació a la llista de productes de alimentació
     public void escollirProducte() {
         try{
-            if (llistaProductes.size() >= CarroCompra.LIMIT_PRODUCTES) {
+            // Comprovem que la llista de productes no estigui plena
+            if (llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
                 throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
             }
             System.out.println();
@@ -183,16 +184,19 @@ public class CarroCompra {
             System.out.println(guions);
             System.out.println(text);
             System.out.println(guions);
-            //
+
+            // Declaracio de variables
             int categoria;
             String nom;
             float preu;
             String codiDeBarres;
-            // Demanem dades del producte
+
+            // Fem un menú petit per escollir la categoria
             System.out.println("Introdueix la categoria del producte:");
             System.out.println("    (1) Alimentacio");
             System.out.println("    (2) Electronica");
             System.out.println("    (3) Textil");
+
             // Comprovem que l'entrada sigui un enter, si no es així que llenci una excepció
             if (!input.hasNextInt()) {
                 throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
@@ -213,12 +217,25 @@ public class CarroCompra {
             System.out.println("Introdueix el nom del producte: ");
             nom = input.next();
 
+            // Convertim la primera lletra en majúscula i la resta en minúscula, per si l'usuari no ha posat
+            // la primera en majuscula i/o la resta en minúscula.
+            nom = nom.substring(0, 1).toUpperCase() + nom.substring(1).toLowerCase();
+
+            // Comprovem que el nom no supera els 15 caràcters
+            if (nom.length() > 15) {
+                throw new ExcepcionsPropies.LimitCaracteresException("El nom del producte no pot superar els 15 caràcters");
+            }
+
             // Demanem el preu i comprovem que l'entrada sigui un float, si no llencem una excepció
             System.out.println("Introdueix el preu del producte: ");
             if (!input.hasNextFloat()) {
                 throw new InputMismatchException("Entrada no valida. S'esperava un float.");
             }
             preu = input.nextFloat();
+            // Comprovem que el preu no sigui negatiu
+            if (preu < 0) {
+                throw new ExcepcionsPropies.negatiuException("El preu no pot ser negatiu");
+            }
 
             // Comprovem si el nom ja ha sortit previament.
             // Si no ha sortit generem un codi de barres.
@@ -230,8 +247,9 @@ public class CarroCompra {
                 nomYCodigsProductes.put(nom, codiDeBarres);
             }
 
-            // Categoria 1 = Alimentacio
             Producte producte;
+
+            // Categoria 1 = Alimentacio
             if (categoria == 1) {
                 String dataCaducitat;
                 // Demanem la data de caducitat
@@ -257,6 +275,9 @@ public class CarroCompra {
                 int diesGarantia;
                 // Demanem els dies de garantia
                 System.out.println("Introdueix els dies de garantia del producte: ");
+                if (!input.hasNextInt()) {
+                    throw new InputMismatchException("Entrada no valida. S'esperava un enter.");
+                }
                 diesGarantia = input.nextInt();
 
                 // Comprovem que dies de garantia sigui un enter positiu
@@ -270,39 +291,57 @@ public class CarroCompra {
 
             // Categoria 3 = Textil, ja haviem comprovat que sigui entre 1 i 3, per descart queda textil
             else {
+                // Fem una arraylist momentanea per introduir textils
+                ArrayList<String> llistaEnumCompositioTextil;
+                llistaEnumCompositioTextil = new ArrayList<>();
+                llistaEnumCompositioTextil.addAll(Arrays.asList("COTO", "POLIESTER", "LLI", "SEDA", "LLANA", "NILO"));
                 String composicioTextil;
+
                 // Demanem la composicio del textil
                 System.out.println("Introdueix la composició del textil: ");
+
+                // Convertim a majúscula per que coincideixi amb el enum
                 composicioTextil = input.next().toUpperCase();
+
+                // Comprovem que la composicio sigui correcta
+                if (!llistaEnumCompositioTextil.contains(Textil.enumCompositioTextil.valueOf(composicioTextil))) {
+                    throw new ExcepcionsPropies.enumFailException("Composicio no valida. S'esperava una de les seguents composicions: COTO, POLIESTER, LLI, SEDA, LLANA o NILO.");
+                }
+
                 // Creem el producte
                 producte = new Textil(nom, preu, codiDeBarres, Textil.enumCompositioTextil.valueOf(composicioTextil));
             }
 
             afegirProducte(producte);
+            System.out.println();
             System.out.println("Producte "+nom+" de tipus "+producte.getClass().getSimpleName()+" amb codi de barres "+'\''+codiDeBarres+'\''+" afegit correctament");
 
         } catch (InputMismatchException e) {
             System.out.println(e.getMessage());
-            System.out.println("El producte no s'ha afegit. Torna a provar");
+            escriureLog(e.getMessage());
         } catch (ExcepcionsPropies.DataCaducitatException e) {
             System.out.println(e.getMessage());
-            System.out.println("El producte no s'ha afegit. Torna a provar");
+            escriureLog(e.getMessage());
         } catch (ExcepcionsPropies.negatiuException e) {
             System.out.println(e.getMessage());
-            System.out.println("El producte no s'ha afegit. Torna a provar");
+            escriureLog(e.getMessage());
         } catch (ExcepcionsPropies.LimitProductesException e) {
             System.out.println(e.getMessage());
+            escriureLog(e.getMessage());
+        } catch (ExcepcionsPropies.LimitCaracteresException e) {
+            System.out.println(e.getMessage());
+            escriureLog(e.getMessage());
+        } catch (ExcepcionsPropies.enumFailException e) {
+            System.out.println(e.getMessage());
+            escriureLog(e.getMessage());
+        }
     }
-}
     //-----------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
     // Mètode per afegir un producte a la llista de productes generals
     public void afegirProducte(Producte producte) {
         try {
-            if (llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
-                throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
-            }
             // Controlem que no hi hagin textils amb el mateix codi de barres
             if (producte instanceof Textil) {
                 if (mapTextilsDuplicats.containsKey(producte.getCODI_DE_BARRES())) {
@@ -314,6 +353,7 @@ public class CarroCompra {
                 }
             }
 
+            // Si ja hi ha un producte amb el mateix codi de barres, augmentar la quantitat +1
             if (mapProductesJaIntroduits.containsKey(producte.getCODI_DE_BARRES())) {
                 for (Producte producte2 : llistaProductes) {
                     if (producte2.getCODI_DE_BARRES().equals(producte.getCODI_DE_BARRES())) {
@@ -327,10 +367,7 @@ public class CarroCompra {
                 mapProductesJaIntroduits.put(producte.getCODI_DE_BARRES(), 1);
             }
 
-
-
-            System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
-            System.out.println();
+            // Afegim el producte a la llista de productes copia.
             llistaProductesCopia.add(producte);
 
         } catch (ExcepcionsPropies.LimitProductesException e) {
@@ -342,7 +379,7 @@ public class CarroCompra {
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Bloc 4: Metodes mostrarProductesCarret i estilMostrarProducte
+//Bloc 5: Metodes mostrarProductesCarret i estilMostrarProducte
 //-------------------------------------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------
     // Metode per mostrar el carret de la compra
@@ -355,16 +392,23 @@ public class CarroCompra {
         // String.format("%-20s%20s", "Producte", "Quantitat"). Lo que fem es afegir 20 espais a la esquerra i 20 espais a la dreta
         // D'aquesta forma fem que quedi perfecte amb els guions. Igual que a un ticket de compra.
 
-
+        // Ordenar llistaProductes per nom
         Collections.sort(llistaProductes, compareNom);
+
+        // Variables per centinela
         AtomicBoolean centinela1 = new AtomicBoolean(true);
         AtomicBoolean centinela2 = new AtomicBoolean(true);
         AtomicBoolean centinela3 = new AtomicBoolean(true);
 
+        // Mostrar el carret de la compra amb lambda expresion.
+        // Mostrar productes de alimentacio
         llistaProductes.forEach((producteA) -> {
-                    if (producteA instanceof Alimentacio) {
+            // Comprovem si es de alimentacio.
+            if (producteA instanceof Alimentacio) {
+                        // Sempre entrarà el primer cop, aixi mostrem la classe primer, després no volem tornar a mostrarla
                         if (centinela1.get()) {
                             System.out.println(String.format("%-20s", producteA.getClass().getSimpleName()));
+                            // Mostrar el nom del producte i la quantitat amb espais i una estetica maca.
                             System.out.println(String.format("%-20s%-20s%9d", "", producteA.getNom(), producteA.getQuantitat()));
                             centinela1.set(false);
                         } else {
@@ -372,10 +416,14 @@ public class CarroCompra {
                         }
                     }
         });
+
+        // Mostrar productes de electronica
         llistaProductes.forEach((producteE) -> {
             if (producteE instanceof Electronica) {
                 if (centinela2.get()) {
+                    // Sempre entrarà el primer cop, aixi mostrem la classe primer, després no volem tornar a mostrarla
                     System.out.println(String.format("%-20s", producteE.getClass().getSimpleName()));
+                    // Mostrar el nom del producte i la quantitat amb espais i una estetica maca.
                     System.out.println(String.format("%-20s%-20s%9d", "", producteE.getNom(), producteE.getQuantitat()));
                     centinela2.set(false);
                 } else {
@@ -383,10 +431,14 @@ public class CarroCompra {
                 }
             }
         });
+
+        // Mostrar productes de Textil
         llistaProductes.forEach((producteT) -> {
             if (producteT instanceof Textil) {
+                // Sempre entrarà el primer cop, aixi mostrem la classe primer, després no volem tornar a mostrarla
                 if (centinela3.get()) {
                     System.out.println(String.format("%-20s", producteT.getClass().getSimpleName()));
+                    // Mostrar el nom del producte i la quantitat amb espais i una estetica maca.
                     System.out.println(String.format("%-20s%-20s%9d", "", producteT.getNom(), producteT.getQuantitat()));
                     centinela3.set(false);
                 } else {
@@ -411,24 +463,29 @@ public class CarroCompra {
 
 
 
-
+// Bloc 6: Metode generarTicketDeCompra, el estil i calcul del preu total.
 //-------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------
     public void generarTicketDeCompra() throws IOException, FileNotFoundException {
         boolean copiaTicket;
         copiaTicket = false;
+
+        // Preguntar si vol copia del ticket
         System.out.println("Voldrà copia? S/N");
         Scanner input = new Scanner(System.in);
         String copia = input.nextLine();
         String arxiuNom;
 
+        // En cas de voler copia, creem un arxiu amb la ruta del path.
         if (copia.toUpperCase().equals("S")) {
             File file = new File("./copies/copiaTicket.txt");
+            // Si el arxiu existeix, l'esborrem perque si no es reescriu
             if (file.exists()) {
                 file.delete();
             }
             copiaTicket=true;
             String guions = "-".repeat(68);
+            // Imprimim l'estetica del ticket
             imprimirCopia(guions);
             imprimirCopia("Ticket de compra");
             imprimirCopia(guions);
@@ -436,6 +493,7 @@ public class CarroCompra {
             imprimirCopia(guions);
 
         } else {
+            System.out.println("No s'ha copiat");
             copiaTicket = false;
         }
 
@@ -444,36 +502,60 @@ public class CarroCompra {
         // String format igual que a estilMostrarProducte().
         // String.format("%-20s%20s", "Producte", "Quantitat"). Lo que fem es afegir 20 espais a la esquerra i 20 espais a la dreta
         // D'aquesta forma fem que quedi perfecte amb els guions. Igual que a un ticket de compra.
+
+        // Fem un format de 2 decimals
         DecimalFormat df = new DecimalFormat("0.00");
+
+        // Ordenem per nom
         Collections.sort(llistaProductes, compareNom);
+
+        // Fels centineles atomics per treballar amb lamda igual que he fet abans
         AtomicBoolean centinela1 = new AtomicBoolean(true);
         AtomicBoolean centinela2 = new AtomicBoolean(true);
         AtomicBoolean centinela3 = new AtomicBoolean(true);
+
+        // Fem un integer atomic i un float atomic per treballar amb lamda.
+        // El enter sera el numero de producte que volem mostrar
         AtomicInteger i = new AtomicInteger(1);
+        // El float sera el preu total
         AtomicReference<Float> preuTotal = new AtomicReference<>((float) 0);
+
+        // No entenc perquè però m'obligaba a fer aquest boolean, si es vol copia serà true i si no serà false
         boolean finalCopiaTicket = copiaTicket;
+
+        // Mostrar el carret de la compra amb lambda expresion.
+        // Mostrem els productes de Alimentacio
         llistaProductes.forEach((producteA) -> {
             if (producteA instanceof Alimentacio) {
+                // Si tenim true a copiaTicket farem lo seguent
                 if (finalCopiaTicket) {
+                    // Sempre entrarà el primer cop perque està true, mostrem la classe, després false per les altres.
                     if (centinela1.get()) {
+                        // Mostrarem la classe i la copiem a l'arxiu
                         String text = String.format("%-20s", producteA.getClass().getSimpleName());
                         System.out.println(text);
                         imprimirCopia(text);
 
+                        // Mostrem el número de producte, el seu nom, la seva quantitat i el preu.
                         text = String.format("%-20s%-5s%-20s%10.02f%-5s%8.2f","",
                                 i.getAndIncrement(),
-                                producteA.getNom()+"x"+producteA.getQuantitat(),
+                                producteA.getNom()+" x "+producteA.getQuantitat(),
                                 producteA.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteA, producteA.getQuantitat()));
+
+                        // Mostrem i imprimim el text a l'arxiu
                         System.out.println(text);
                         imprimirCopia(text);
                         centinela1.set(false);
-                    } else {
+                    }
+
+                    // Després farem sempre el mateix, pero sense mostrar la classe
+                    else {
                         String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                                 "",
                                 i.getAndIncrement(),
-                                producteA.getNom()+"x"+producteA.getQuantitat(),
+                                producteA.getNom()+" x "+producteA.getQuantitat(),
                                 producteA.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteA, producteA.getQuantitat()));
@@ -482,29 +564,38 @@ public class CarroCompra {
                     }
                 }
 
+                // En el cas de no tenir true a copiaticket, fem el mateix, pero sense imprimir copia.
+                // Primer mostrnant la classe, numero de producte, el seu nom, la seva quantitat i el preu.
                 else if (centinela1.get()) {
                     System.out.println(String.format("%-20s", producteA.getClass().getSimpleName()));
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteA.getNom()+"x"+producteA.getQuantitat(),
+                            producteA.getNom()+" x "+producteA.getQuantitat(),
                             producteA.calcularPreu(),
                             "",
                             calcularPreuTotal(producteA, producteA.getQuantitat())));
                     centinela1.set(false);
-                } else {
+                }
+                // Després mostrem el mateix, pero sense la clase
+                else {
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteA.getNom()+"x"+producteA.getQuantitat(),
+                            producteA.getNom()+" x "+producteA.getQuantitat(),
                             producteA.calcularPreu(),
                             "",
                             calcularPreuTotal(producteA, producteA.getQuantitat())));
                 }
+
+                // Actualitzem la variable preuTotal, sumant-li el preu del producte
                 preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteA, producteA.getQuantitat()))));
             }
         });
+
+        // Tornem a inicilitzar la variable
         i.set(1);
+        // Mostrem els productes de Electronics amb la mateixa metodologia que a l'anterior
         llistaProductes.forEach((producteE) -> {
             if (producteE instanceof Electronica) {
                 if (finalCopiaTicket) {
@@ -515,7 +606,7 @@ public class CarroCompra {
 
                         text = String.format("%-20s%-5s%-20s%10s%-5s%8s","",
                                 i.getAndIncrement(),
-                                producteE.getNom()+"x"+producteE.getQuantitat(),
+                                producteE.getNom()+" x "+producteE.getQuantitat(),
                                 producteE.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteE, producteE.getQuantitat()));
@@ -526,7 +617,7 @@ public class CarroCompra {
                         String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                                 "",
                                 i.getAndIncrement(),
-                                producteE.getNom()+"x"+producteE.getQuantitat(),
+                                producteE.getNom()+" x "+producteE.getQuantitat(),
                                 producteE.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteE, producteE.getQuantitat()));
@@ -538,7 +629,7 @@ public class CarroCompra {
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteE.getNom()+"x"+producteE.getQuantitat(),
+                            producteE.getNom()+" x "+producteE.getQuantitat(),
                             producteE.calcularPreu(),
                             "",
                             calcularPreuTotal(producteE, producteE.getQuantitat())));
@@ -547,7 +638,7 @@ public class CarroCompra {
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteE.getNom()+"x"+producteE.getQuantitat(),
+                            producteE.getNom()+" x "+producteE.getQuantitat(),
                             producteE.calcularPreu(),
                             "",
                             calcularPreuTotal(producteE, producteE.getQuantitat())));
@@ -555,7 +646,10 @@ public class CarroCompra {
                 preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteE, producteE.getQuantitat()))));
             }
         });
+
+        // Tornem a inicilitzar la variable
         i.set(1);
+        // Mostrem els productes de Textil amb la mateixa metodologia que a l'anterior
         llistaProductes.forEach((producteT) -> {
             if (producteT instanceof Textil) {
                 if (finalCopiaTicket) {
@@ -566,7 +660,7 @@ public class CarroCompra {
 
                         text = String.format("%-20s%-5s%-20s%10s%-5s%8s","",
                                 i.getAndIncrement(),
-                                producteT.getNom()+"x"+producteT.getQuantitat(),
+                                producteT.getNom()+" x "+producteT.getQuantitat(),
                                 producteT.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteT, producteT.getQuantitat()));
@@ -577,7 +671,7 @@ public class CarroCompra {
                         String text = String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                                 "",
                                 i.getAndIncrement(),
-                                producteT.getNom()+"x"+producteT.getQuantitat(),
+                                producteT.getNom()+" x "+producteT.getQuantitat(),
                                 producteT.calcularPreu(),
                                 "",
                                 calcularPreuTotal(producteT, producteT.getQuantitat()));
@@ -590,7 +684,7 @@ public class CarroCompra {
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteT.getNom()+"x"+producteT.getQuantitat(),
+                            producteT.getNom()+" x "+producteT.getQuantitat(),
                             producteT.calcularPreu(),
                             "",
                             calcularPreuTotal(producteT, producteT.getQuantitat())));
@@ -599,7 +693,7 @@ public class CarroCompra {
                     System.out.println(String.format("%-20s%-5d%-20s%10.02f%-5s%8.2f",
                             "",
                             i.getAndIncrement(),
-                            producteT.getNom()+"x"+producteT.getQuantitat(),
+                            producteT.getNom()+" x "+producteT.getQuantitat(),
                             producteT.calcularPreu(),
                             "",
                             calcularPreuTotal(producteT, producteT.getQuantitat())));
@@ -607,7 +701,11 @@ public class CarroCompra {
                 preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producteT, producteT.getQuantitat()))));
             }
         });
+
+        // Fem 68 guions que son els espais totals del String format, així queda tot nivellat.
         String guions = "-".repeat(68);
+
+        // En cas de voler copia imprimim els guions i el preu total. També el mostem per consola.
         if (finalCopiaTicket) {
             imprimirCopia(guions);
             imprimirCopia(String.format("%68s","Total: "+df.format(preuTotal.get())));
@@ -615,6 +713,7 @@ public class CarroCompra {
             System.out.println(String.format("%68s","Total: "+df.format(preuTotal.get())));
             System.out.println();
         }
+        // En cas de no voler copia només mostem els guions i el preu total.
         else {
             System.out.println(guions);
             System.out.println(String.format("%68s","Total: "+df.format(preuTotal.get())));
@@ -622,6 +721,7 @@ public class CarroCompra {
         }
     }
 
+    // ----------------------------------------------------------------------------------
     public void estilTicket() {
         System.out.println();
         String guions = "-".repeat(68);
@@ -642,22 +742,19 @@ public class CarroCompra {
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-    //-----------------------------------------------------------------------------
-    // Mètode per comparar els productes i ordenar-los segons el nom
-    Comparator<Producte> compareNom = new Comparator<Producte>() {
-        @Override
-        public int compare(Producte producte1, Producte producte2) {
-            return producte1.getNom().compareTo(producte2.getNom());
-        }
-    };
-    //-----------------------------------------------------------------------------
+// Bloc 7: Metode per mostrar el preu total, imprimir ticket i escriure els logs.
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+    // Mètode per mostrar el preu total
+    // -------------------------------------------------------------------------------------------------
+    // Fem recorregut dels productes per mostrar el preu total
+    public void mostrarPreuTotal() {
+        AtomicReference<Float> preuTotal = new AtomicReference<>((float) 0);
+        llistaProductes.forEach((producte) -> {
+                preuTotal.updateAndGet(v -> new Float((float) (v + calcularPreuTotal(producte, producte.getQuantitat()))));
+        });
+        System.out.println("Actualment tens en el carret: " + preuTotal.get());
+    }
+    //------------------------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------
     public static void escriureLog(String missatge) {
@@ -665,27 +762,25 @@ public class CarroCompra {
         String arxiu = "mercatOnline.log";
 
         File directori = new File(directoriNom);
+        // Comprovem si el directori no existeix, si no existeix, el creem
         if (!directori.exists()) {
-            directori.mkdirs(); // Crea los directorios necesarios
+            directori.mkdirs();
         }
 
-        // Obtener la fecha y hora actual formateada para el log
+        // Obtenir la data i l'hora actual per fer mostrar al log
         LocalDateTime dataIhoraActual = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-        // Formatear el mensaje de log
+        // Formatejar el missatge del log: data i hora i missatge que li hem passat
         String logMessage = "[" + dataIhoraActual.format(format) + "] " + missatge;
 
-        // Escribir en el archivo de log
+        // Escriure en el arxiu de log
         try (PrintWriter writer = new PrintWriter(new FileWriter(directori + File.separator + arxiu, true))) {
             writer.println(logMessage);
             writer.close();
         } catch (IOException e) {
-            e.getMessage(); // Manejar el error de escritura
+            e.getMessage();
         }
-
-        // Imprimir el mensaje de log en la consola
-        System.out.println(logMessage);
     }
     // -----------------------------------------------------------------------------
 
@@ -697,20 +792,30 @@ public class CarroCompra {
 
         File directori = new File(directoriNom);
         if (!directori.exists()) {
-            directori.mkdirs(); // Crea los directorios necesarios
+            directori.mkdirs();
         }
 
-        // Formatear el mensaje de log
-        String message = text;
-
-        // Escribir en el archivo de log
+        // Escribim el text al arxiu
         try (PrintWriter writer = new PrintWriter(new FileWriter(directori + File.separator + arxiu, true))) {
-            writer.println(message);
+            writer.println(text);
             writer.close();
         } catch (IOException e) {
-            e.getMessage(); // Manejar el error de escritura
+            e.getMessage();
         }
     }
     //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    // Mètode per comparar els productes i ordenar-los segons el nom
+    Comparator<Producte> compareNom = new Comparator<Producte>() {
+        @Override
+        public int compare(Producte producte1, Producte producte2) {
+            return producte1.getNom().compareTo(producte2.getNom());
+        }
+    };
+    //-----------------------------------------------------------------------------
+
+
 }
 

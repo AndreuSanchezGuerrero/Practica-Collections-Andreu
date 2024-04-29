@@ -95,7 +95,7 @@ Important:
 
 ## Suclasse de Producte 'Textil'
  
-- La variable composicioTextil serà un enum, per fer ja directament el control d'errors i no haber de fer una llista amb els tipus de composició tèxtil.
+- La variable composicioTextil serà un enum, podria ser perfectament una String, però per fer algo diferent.
 
 ````java 
 // Enum de composició tèxtil
@@ -254,138 +254,66 @@ comprovarPreuTextil -> Li pasem un producte i mirem si el codi de barres coincid
 
 
 **Bloc 4**
-
-- afegirProducte(Alimentacio Producte) -> Mètode per afegir un producte a la llista de productes i al mapa de productes que el necessitarem per fer un recorregut del carro.
-      1. Afegim el producte a la llista de productes, ho necessitarem per calcular el preu de tot el carret.
-      2. Afegim el producte al diccionari de productes, ho necessitarem més endevant per veure els productes del carro i quants tenim amb el mateix codi de barres.
-
-
-````java
-
-    public void afegirProducte(Alimentacio producte) {
-        
-        // 
-        llistaProductes.add(producte);
-
-        //
-        if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
-            // Si el producte ja existeix, augmentar la quantitat +1.
-            int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
-            mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
-        } else {
-            // Si el producte no existeix, afegir-lo amb una quantitat de 1
-            mapProductes.put(producte.getCODI_DE_BARRES(), 1);
-        }
-        System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
-    }
-````
-
+escollirProducte -> Creació de producte.
+      1. Comprovem que la llista de productes (copia) no estigui plena, si no llancem una excepció i escribim el log.
+      2. Fem un menú per demanar la categoria que vol introduir.
+      3. Controlem que la entrada sigui un enter, si no escribim el log i llencem una excepció.
+      4. Fem un altre control d'errors, aquest cop si l'usuari ha introduit un enter, però no està dintre del rang que toca, tornarem a demanar-li que l'introdueixi de nou.
+      5. Controlem que el nom introduit sigui igual o més petit de 15, si no llancem una excepció + log.
+      6. Controlem que l'usuari entri un float en el preu, si no llancem excepció + log.
+      7. Controlem que l'usuari introdueixi un preu positiu, si no excepció + log.
+      8. Creem el codi de barres de la manera que em explicat abans.
+      9. **Creació de productes d'Alimentació.**
+      10. Demanem la data de caducitat i li fem els controls d'errors, si no està bé introduida, llancem excepció + log.
+      11. **Creació de productes d'Electronica.**
+      12. Demanem els dies de garantia, si no es un enter, o es negatiu, llencem excepció + log.
+      13. **Creació de productes de Textil.**
+      14. Demanem composicióTextil i la pasem a mayuscula perquè aixií coincideixi amb la descripció de l'enum.
+      15. Comprovem a una llista de composicions si es correcta l'entrada, si no llencem excepció + log.
+      16. Cridem a la funció afegir product. 
+      17. Informem de que s'ha creat amb exit.
   
+
+afegirProducte(Alimentacio Producte) -> Mètode per afegir productes a la llista de productes o pujarli la quantitat a +1. També tenim el 
+      1. Controlem que no hi hagin textils amb el mateix codi de barres.
+      2. Comprovem que no hi hagin codis de barres repetits amb el hashmap, d'aquesta forma evitem estar fent constantment un for, i fem treballar al hashmap que es mes rapid i optim. Si hi ha algun codi de barres repetit, augmentem la quantitat del producte en 1, pero no l'afegim a la llista de productes.
+      3. Si o si l'afegim a llista de productes copia, per controlar la mida.
+
+**Bloc 5**
+
+estilMostrarProducte -> Fem un un estil mode ticket de compra. 
+
+mostrarProducte() -> Mètode per mostrar el contingut de carro sense preu, nomès categoria, nom i quantitat.
+    1. Ordenem la llista per la nom.
+    2. Fem centineles atomic per poder treballar amb lamda expresion
+    3. Aquest centineles serveixen perquè sempre entraran dintre de la primera condició en la qual farem un stringformat per mostrar la classe i després tot el contingut, es posarà la variable com a false i ja no tornarà a imprimir més la clase. String format seveix per fer maca la frase.
+    4. Fem els bucles de cada classe amb l'estetica i la llogica que s'explico als comentaris.
+
+**Bloc 6**
+
+estilTicket -> Estil amb string format que simula un ticket.
    
+generarTicketDeCompra() -> Ticket de compra.
+    1. Preguntem si vol copia.
+    2. En el cas de voler copia, comprovem si existeix ja l'arxiu i el borrem per no generar un append. Imprimim l'estetica del ticket.
+    3. Cridem a l'estil el ticket
+    4.  Ordenem la llista.
+    5.  Creem un formater de decimals per que tots tinguin 2 decimals.
+    6.  Els mateixos centineles que a mostrarCarretCompra, de fet es molt semblant.
+    7.  Fem un integer que vagi sumant 1, serà el número de producte.
+    8.  Un float per el preu total.
+    9.  Un boolea de copia ticket per veure si fa falta copia o no.
+    10. Mateixa metodologia que a mostrarCarro, però amb la diferencia de que primer comprovem si vol copia, en cas de que si fem exactament el mateix que fariem, pero afegtint l'imprimació.
+    11. Després calculem el preuTotal, expico més detalladament als comentaris del codi.
+    12. Per als 3 for es el mateix.
+    13. Fem 68 guions que son els espais totals del String format, així queda tot nivellat.
+    14. En cas de voler copia imprimim els guions i el preu total. També el mostem per consola.
+    15. En cas de no voler copia només mostem els guions i el preu total.
 
+calcularPreuTotal -> Preu * quantitat.
 
+mostrarPreuTotal -> Fem un recorregut de la llista i mostrem el preu total.
 
+escriureLog -> Passem el missatge i el sobreescrivim al l'arxiu de logs. Si no existeix, el creem nosaltres.
 
-
-````java
-    // Metode per mostrar el menu principal
-    public void menu1() {
-       // Guardem la mida de la String saludar per que quedi nivellat amb els guions
-        String saludar = "---" + saludar() + " benvingut al mercat online---";
-        // Fem que saludar pasi a ser una llista amb el '.split'. Amb el bucle 'for' fem el recorregut de la llista i per cada recorregut, afegim un guió a la variable guions perquè aixì queda simetric.
-        String guions = "";
-        for (String guion:saludar.split("")) {
-            guions += "-";
-        }
-        System.out.println(guions);
-        System.out.println(saludar);
-        System.out.println(guions);
-        System.out.println("(1) Introduir producte");
-        System.out.println("(2) Passar per caixa");
-        System.out.println("(3) Mostar carret de compra");
-        System.out.println("(0) Acabar");
-    }
-````
-
-- En cas d'introduir '1' al menu1(), s'executarà el menu2() amb opcions a escollir.
-
-- Expressió regular per validar la data.
-    1. '^' indica el principi de la cadena.
-    2. '(0[1-9]|[1-2][0-9]|3[0-1])' Permet valors de 01 a 09, 10 a 29, 30 y 31 que es el dia.
-    3. '-' Separació per guió.
-    4. '(0[1-9]|1[0-2])' Permet valors de 01 a 09 (Gener) a 12 (Decembre).
-    5. '-' Separació per guió.
-    6. '(202[5-9]|20[3-9][0-9])' Permet valors de 2025 hasta 2099.
-    7. '$'.
-
-````java
-// Expressió regular per validar la data
-    private boolean comprovarDataCaducitat(String data) {
-        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
-        Matcher mat = patron.matcher(data);
-        return mat.matches();
-    }
-````
-
-- afegirProducte(Alimentacio producte) -> Mètode que fem servir per afegir un producte al diccionari de productes i a la llista de productes.
-
-````java
-  public void afegirProducte(Alimentacio producte) {
-        // Afegim el producte a la llista de productes generals per calcular el preu
-        llistaProductes.add(producte);
-
-        // Afegim el producte al diccionari de productes per veure els productes del carro i quants tenim
-        if (mapProductes.containsKey(producte.getCODI_DE_BARRES())) {
-            // Si el producte ja existeix, augmentar la quantitat +1.
-            int quantitat = mapProductes.get(producte.getCODI_DE_BARRES());
-            mapProductes.put(producte.getCODI_DE_BARRES(), quantitat + 1);
-        } else {
-            // Si el producte no existeix, afegir-lo amb una quantitat de 1
-            mapProductes.put(producte.getCODI_DE_BARRES(), 1);
-        }
-        System.out.println("S'ha afegit " + producte.getNom() + " amb codi de barres: " + producte.getCODI_DE_BARRES() + '\n');
-    }
-````
-
-- crearProducte() -> Creació de producte i dintre cridem a afegirproducte(producte)
-
-````java
-    public void crearProducte() {
-        //
-        String nom;
-        float preu;
-        String codiDeBarres;
-        String dataCaducitat;
-        //
-        System.out.println("Introdueix el nom del producte: ");
-        nom = input.nextLine();
-        System.out.println("Introdueix el preu del producte: ");
-        preu = input.nextFloat();
-
-        // Comprovem si el nom ja ha sortit previament.
-        // Si no ha sortit generem un codi de barres.
-        // Si ja ha sortit, agafim el codi de barres ja generat previament per aquest nom.
-        if (nomYCodigsProductes.containsKey(nom)) {
-            codiDeBarres = nomYCodigsProductes.get(nom);
-        } else {
-            codiDeBarres= generarCodiDeBarres(nom);
-            nomYCodigsProductes.put(nom, codiDeBarres);
-        }
-
-        // Comprovem la data de caducitat i si no es correcta tornem a provar. No es un error tan greu com per llançar una excepció
-        System.out.println("Introdueix la data de caducitat del producte: ");
-        dataCaducitat = input.nextLine();
-        while (!comprovarDataCaducitat(dataCaducitat)) {
-            System.out.println();
-            System.out.println("Data incorrecta, torna-ho a provar.");
-            System.out.println("Introdueix la data en format (dd-mm-yyyy): ");
-            dataCaducitat = input.nextLine();
-        }
-        
-        // Creem el producte i l'afegim a la llista de productes i al diccionari de productes
-        Alimentacio producte = new Alimentacio(nom, preu, codiDeBarres, dataCaducitat);
-        afegirProducte(producte);
-        System.out.println("Producte "+nom+ " afegit correctament");
-    }
-````
-
+imprimirCopia -> Lo mateix que al de escriureLog, pero en un altre fitxer. Anem passant missatges i els anem escrivint amb el format que li donem amb String format.

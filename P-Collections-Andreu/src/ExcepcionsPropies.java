@@ -17,4 +17,16 @@ public class ExcepcionsPropies extends Exception {
             super(message);
         }
     }
+
+    public static class LimitCaracteresException extends Exception {
+        public LimitCaracteresException(String message) {
+            super(message);
+        }
+    }
+
+    public static class enumFailException extends Exception {
+        public enumFailException(String message) {
+            super(message);
+        }
+    }
 }

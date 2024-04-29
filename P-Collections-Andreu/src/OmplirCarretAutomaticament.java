@@ -46,12 +46,13 @@ public class OmplirCarretAutomaticament {
         String codiDeBarres;
         String dataCaducitat;
         try {
+            // Fem 25 aleatoris
             for (int i = 0; i < 25; i++) {
                 if (CarroCompra.llistaProductesCopia.size() >= CarroCompra.LIMIT_PRODUCTES) {
                     throw new ExcepcionsPropies.LimitProductesException("La llista ja te 100 productes");
                 }
 
-
+                // Creem el producte
                 nom = getNomAlimentacio();
                 preu = generarPreuAleatori(1, 100);
                 codiDeBarres = getCodiDeBarres(nom);
@@ -143,6 +144,10 @@ public class OmplirCarretAutomaticament {
 
     }
 
+
+    // Mètodes per agafar aleatoriament noms dels productes i composicions dels textils
+    // Convertim la seva mida en un int i agafem un numero random entre 0 i la mida.
+    // D'aquesta manera tenim un producte aleatori de la llista.
     private String getNomAlimentacio() {
         int producteAlimentacio = random.nextInt(productesAlimentacio.size());
         String producteAlimentacioFinal = productesAlimentacio.get(producteAlimentacio);
@@ -178,18 +183,21 @@ public class OmplirCarretAutomaticament {
         }
     }
 
+    // Generem una data aleatoria de caducitat, si o si serà més gran que avui, però maxim 365 dies.
     public String getDataCaducitatSTR() {
         LocalDate dataCaducitat = LocalDate.now().plusDays(random.nextInt(1, 365));
         String dataCaducitatSTR = dataCaducitat.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         return dataCaducitatSTR;
     }
 
+    // pasem dos numeros i generem un preu float aleatori entre min i max.
     public static float generarPreuAleatori(int min, int max) {
         Random random2 = new Random();
         float numeroAleatori = random2.nextInt(min,max);
         return numeroAleatori;
     }
 
+    // Pasem dos numeros i generem un numero enter aleatori entre min i max.
     public static int generarNumAleatori(int min, int max) {
         Random random3 = new Random();
         int numeroAleatori = random3.nextInt(min,max);
