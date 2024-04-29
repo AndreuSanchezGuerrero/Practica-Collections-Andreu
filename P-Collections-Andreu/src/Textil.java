@@ -1,4 +1,5 @@
 public class Textil extends Producte implements Comparable<Textil> {
+    // Enum de composició tèxtil.
     public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
     enumCompositioTextil composicioTextil;
 

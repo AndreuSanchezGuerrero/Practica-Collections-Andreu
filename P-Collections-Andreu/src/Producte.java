@@ -59,6 +59,7 @@ public abstract class Producte {
     @Override
     public String toString() {
         return  "       nom='" + nom + '\'' + "\n" +
+                "       quantitat=" + quantitat + "\n" +
                 "       preu=" + preu + "\n" +
                 "       Codi_de_barres='" + CODI_DE_BARRES + '\'';
     }
@@ -67,14 +68,6 @@ public abstract class Producte {
     //-------------------------------------------------------------------------------
     // Classe abstracta per calcular el preu
     public abstract float calcularPreu();
-    //-------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------
-    public boolean comprovarCodiDeBarres(String CODI_DE_BARRES) {
-        Pattern patron = Pattern.compile("^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(202[5-9]|20[3-9][0-9])$");
-        Matcher mat = patron.matcher(CODI_DE_BARRES);
-        return mat.matches();
-    }
     //-------------------------------------------------------------------------------
 
 

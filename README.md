@@ -1,30 +1,66 @@
-# Explicació de la práctica
+# Introducció.
+
+La següent pràctica tracta de crear un **mercat online**, on es poden **comprar productes d'alimentació, electrònica i tèxtils**. El programa té un menú principal on tens 4 possibles opcions:
+
+     1. Intorduir producte.
+     2. Passar per caixa.
+     3. Mostrar el que tenim a la cistella.
+     4. Omplir el carretó de productes random
+     5. Mostra preu carret.
+     6. Sortir
+
+**Informació general del programa.**
+
+- El programa ens dóna els bons dies, la bona tarda o la bona nit depenent de l'hora que sigui.
+- Introduir producte ens permet afegir un producte d'una de les categories dites anteriorment.
+- Passar per caixa ens ensenya el rebut, per posteriorment pagar. També ens dóna l'opció d'escollir si en volem còpia o no.
+- Mostrar carretó ens mostra els productes que tenim afegits al carretó.
+- Omplir carretó, ens permet omplir el carretó amb objectes random (per facilitar la feina al professor). PD: Els preus no van a cord amb el producte, hi pot haver un pa de 70€.
+- Mostrar preu carretó, ens informa del preu que tenim actualment al carretó, per no passar-nos i que després no puguem pagar.
+- La darrera opció és sortir.
+
+Important:
+     - El carretó no pot superar els 100 productes.
+     - La longitud d'un nom no pot superar els 15 caràcters.
+     - Els productes amb un codi de barres igual que algun del fitxer updates, s'actualitzarà. Això ho tenim per si tenim dies amb ofertes per exemple un black friday.
 
 ## .gitignore
 
 - He fet un .gitignore per no pujar al repositori els fitxers que crea el IDE (fitxers .iml).
 - El propi java incorpora un .gitignore per no pujar res del out.
 
+**gitignore general, per excloure els fitxers IML**
+![gitignoreIML](./images_per_fer_readme/gitignoreIML.png)
+
+**gitignore dintre del projecte per excloure el out**
+![gitignoreOUT](./images_per_fer_readme/gitignoreOUT.png)
+
 ## Classe abstracte 'Producte'
 
-- La classe és abstracta per no poder crear productes, només en podrem crear subclasses de la mateixa.
+- La classe és abstracta per no poder crear productes amb la classe 'Producte', només en podrem crear subclasses de la mateixa.
 
-- Podrem modificar tot excepte el codi de barres, per això el posem com a variable constant ja que no variarà. En el meu cas, crec que codi de barres sempre serà el mateix.
+- Podrem modificar (setters) tot excepte el codi de barres, per això el posem com a variable constant ja que no variarà. En el meu cas, crec que codi de barres sempre serà el mateix.
 
-- Totes tindran els seus getters.
+- Totes les variables tindran els seus getters, ja que els necesitem.
+
+- **Important: he fet la variable 'quantitat' que s'anirà actualitzant a mesura que anem afegint productes amb el mateix codi de barres**
 
 - 'Calcular preu' -> Mètode abstracte perquè sigui obligatori anomenar-lo a les seves subclasses.
 
-## Subclasse de producte 'Alimentació'
+## Subclasse de Producte 'Alimentació'
 
-- Demanem la data en format dd-mm-yyyy. A la classe CarroCompra comprovarem la data controlant-la per regex i tornan a donar l'oportunitat d'introduir la data.
+- Demanem la data en format dd-mm-yyyy (String).
 
-- Calculem el preu segons la data de caducitat amb el métode 'calcularPreu()'. 
+- 'calcularPreu()' -> Calculem el preu segons la data de caducitat. 
     1. Guardem la data actual.
     2. Convertim la data de caducitat de String a LocalDate amb format(dd-MM-yyy) per poder operar amb ella.
     3. Fem l'operació que ens diu l'enunciat, pero en compte de 'preu - preu*(1/(dataCaducitat-dataActual+1)) **Aquí va una suma en comptes de una resta perquè no cuadren els resultats** (preu*0.1)'.
 
 - El getter de preu serà el resultat del mètode 'calcularPreu()'.
+
+- No tenim cap setter, ja que el preu que es té que poder modificar és el de la classe pare 'Producte' que es el preu base, aquí es necessita el preu fent el càlcul. La data de caducitat tampoc ha de poder cambiarse, no te sentit que es pugui modificar. La fem com ha variable constant.
+
+**calcularpreu()**
 
   ````java
    // Sobreescrivim el mètode obstracte de Producte
@@ -48,9 +84,17 @@
     }
   ````
 
-## Suclasse de producte 'Textil'
+## Suclasse de Producte 'Textil'
+ 
+- La variable composicioTextil serà un enum, per fer ja directament el control d'errors i no haber de fer una llista amb els tipus de composició tèxtil.
 
-- Sobreescrivim el mètode calcularpreu(), però deixiem els valors de la classe super.
+````java 
+// Enum de composició tèxtil
+public enum enumCompositioTextil {COTO, POLIESTER, LLI, SEDA, LLANA, NILO;};
+    enumCompositioTextil composicioTextil;
+````
+
+- Sobreescrivim el mètode calcularpreu(), però deixiem els valors de la classe super (Producte) perquè no varia en aquest cas.
   
 ````java
    // Sobreescrivim el mètode abstracte de Producte i el deixem igual, no varia de la classe superior
@@ -65,14 +109,16 @@
     }
 
 ````
-  
-## Suclasse de producte 'Electronica'
+- Composició tèxtil tindrà el seu setter per poder cambiarla.
+    
+## Suclasse de Producte 'Electronica'
 
 - En aquest cas data de garantia si que es podrá modificar. Perquè es posible que al producte li retallin la vida de garantia o extendre-la.
 
 - Sobreescrivim el mètode calcularpreu() i fem l'operacio de l'enunciat. El preu d'aquest tipus de producte varia en funció dels dies que té de garantia.
 
 ````java
+
     // Sobreescrivim el mètode abstracte de Producte i fem l'operacio de l'enunciat
     @Override
     public float calcularPreu() {
