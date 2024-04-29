@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="P-Collections-Andreu:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/P_Collections_Andreu_jar</output-path>
+    <root id="archive" name="P-Collections-Andreu.jar">
+      <element id="module-output" name="P-Collections-Andreu" />
+    </root>
+  </artifact>
+</component>
